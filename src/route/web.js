@@ -6,13 +6,16 @@ import postController from "../controllers/postController";
 import orderdetailController from "../controllers/orderdetailController";
 import orderController from "../controllers/orderController";
 import categoryController from "../controllers/categoryController";
+import sliderController from "../controllers/sliderController";
+import menuController from "../controllers/menuController";
+import contactController from "../controllers/contactController"
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", (req, res) => {
     return res.send("fff");
   });
   //APIs USER
-  router.post('/api/login',userController.handleLogin);
+  router.post("/api/login", userController.handleLogin);
   router.get("/api/get-all-users", userController.handleGetAllUser);
   router.post("/api/create-new-user", userController.handleCreateNewUser);
   router.delete("/api/delete-user", userController.handleDeleteUser);
@@ -65,9 +68,33 @@ let initWebRoutes = (app) => {
 
   //APIs CATEGORY
   router.get("/api/get-all-category", categoryController.handleGetAllCategory);
-  router.post("/api/create-new-category", categoryController.handleCreateNewCategory);
-  router.delete("/api/delete-category", categoryController.handleDeleteCategory);
+  router.post(
+    "/api/create-new-category",
+    categoryController.handleCreateNewCategory
+  );
+  router.delete(
+    "/api/delete-category",
+    categoryController.handleDeleteCategory
+  );
   router.put("/api/edit-category", categoryController.handleEditCategory);
+
+  //APIs SLIDER
+  router.get("/api/get-all-slider", sliderController.handleGetAllSlider);
+  router.post("/api/create-new-slider", sliderController.handleCreateNewSlider);
+  router.delete("/api/delete-slider", sliderController.handleDeleteSlider);
+  router.put("/api/edit-slider", sliderController.handleEditSlider);
+
+  // APIs MENU
+  router.get("/api/get-all-menu", menuController.handleGetAllMenu);
+  router.post("/api/create-new-menu", menuController.handleCreateNewMenu);
+  router.put("/api/edit-menu", menuController.handleEditMenu);
+  router.delete("/api/delete-menu", menuController.handleDeleteMenu);
+
+  // APIs CONTACTS
+  router.get("/api/get-all-contact", contactController.handleGetAllContact);
+  router.post("/api/create-new-contact", contactController.handleCreateNewContact);
+  router.put("/api/edit-contact", contactController.handleEditContact);
+  router.delete("/api/delete-contact", contactController.handleDeleteContact);
 
   return app.use("/", router);
 };

@@ -23,19 +23,16 @@ module.exports = {
       img: {
         type: Sequelize.STRING
       },
-      type: {
-        type: Sequelize.STRING
-      },
       status: {
         type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       }
     });
   },

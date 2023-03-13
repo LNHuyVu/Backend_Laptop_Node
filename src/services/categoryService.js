@@ -18,7 +18,7 @@ let getAllCategory = async (categoryId) => {
   try {
     let category = "";
     if (categoryId === "ALL") {
-      category = await db.Categorys.findAll({});
+      category = await db.Categorys.findAll();
     }
     if (categoryId && categoryId !== "ALL") {
       category = await db.Categorys.findOne({
