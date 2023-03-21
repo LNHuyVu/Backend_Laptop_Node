@@ -8,7 +8,12 @@ import orderController from "../controllers/orderController";
 import categoryController from "../controllers/categoryController";
 import sliderController from "../controllers/sliderController";
 import menuController from "../controllers/menuController";
-import contactController from "../controllers/contactController"
+import contactController from "../controllers/contactController";
+import productValueController from "../controllers/productValueController";
+import productOptionController from "../controllers/productOptionController";
+import productStoreController from "../controllers/productStoreController";
+import productImageController from "../controllers/productImageController";
+import productSaleController from "../controllers/productSaleController"
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", (req, res) => {
@@ -35,6 +40,96 @@ let initWebRoutes = (app) => {
   );
   router.delete("/api/delete-product", productController.handleDeleteProduct);
   router.put("/api/edit-product", productController.handleEditProduct);
+
+  //APIs PRODUCT_VALUE
+  router.get(
+    "/api/get-all-productvalue",
+    productValueController.handleGetAllProductValue
+  );
+  router.post(
+    "/api/create-new-productvalue",
+    productValueController.handleCreateNewProductValue
+  );
+  router.delete(
+    "/api/delete-productvalue",
+    productValueController.handleDeleteProductValue
+  );
+  router.put(
+    "/api/edit-productvalue",
+    productValueController.handleEditProductValue
+  );
+
+  //APIs PRODUCT_OPTION
+  router.get(
+    "/api/get-all-productoption",
+    productOptionController.handleGetAllProductOption
+  );
+  router.post(
+    "/api/create-new-productoption",
+    productOptionController.handleCreateNewProductOption
+  );
+  router.delete(
+    "/api/delete-productoption",
+    productOptionController.handleDeleteProductOption
+  );
+  router.put(
+    "/api/edit-productoption",
+    productOptionController.handleEditProductOption
+  );
+
+  //APIs PRODUCT_STORE
+  router.get(
+    "/api/get-all-productstore",
+    productStoreController.handleGetAllProductStore
+  );
+  router.post(
+    "/api/create-new-productstore",
+    productStoreController.handleCreateNewProductStore
+  );
+  router.delete(
+    "/api/delete-productstore",
+    productStoreController.handleDeleteProductStore
+  );
+  router.put(
+    "/api/edit-productstore",
+    productStoreController.handleEditProductStore
+  );
+
+  //APIs PRODUCT_IMAGE
+  router.get(
+    "/api/get-all-productimage",
+    productImageController.handleGetAllProductImage
+  );
+  router.post(
+    "/api/create-new-productimage",
+    productImageController.handleCreateNewProductImage
+  );
+  router.delete(
+    "/api/delete-productimage",
+    productImageController.handleDeleteProductImage
+  );
+  router.put(
+    "/api/edit-productimage",
+    productImageController.handleEditProductImage
+  );
+
+   //APIs PRODUCT_SALE
+   router.get(
+    "/api/get-all-productsale",
+    productSaleController.handleGetAllProductSale
+  );
+  router.post(
+    "/api/create-new-productsale",
+    productSaleController.handleCreateNewProductSale
+  );
+  router.delete(
+    "/api/delete-productsale",
+    productSaleController.handleDeleteProductSale
+  );
+  router.put(
+    "/api/edit-productsale",
+    productSaleController.handleEditProductSale
+  );
 
   //APIs POST
   router.get("/api/get-all-post", postController.handleGetAllPost);
@@ -92,7 +187,10 @@ let initWebRoutes = (app) => {
 
   // APIs CONTACTS
   router.get("/api/get-all-contact", contactController.handleGetAllContact);
-  router.post("/api/create-new-contact", contactController.handleCreateNewContact);
+  router.post(
+    "/api/create-new-contact",
+    contactController.handleCreateNewContact
+  );
   router.put("/api/edit-contact", contactController.handleEditContact);
   router.delete("/api/delete-contact", contactController.handleDeleteContact);
 

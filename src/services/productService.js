@@ -19,11 +19,26 @@ let getAllProducts = async (productId) => {
   try {
     let product = "";
     if (productId === "ALL") {
-      product = await db.Products.findAll({});
+      product = await db.Products.findAll({
+        include: [
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "nameImage", "link", "alt"],
+          },
+        ],
+      });
     }
     if (productId && productId !== "ALL") {
       product = await db.Products.findOne({
         where: { id: productId },
+        include: [
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "nameImage", "link", "alt"],
+          },
+        ],
       });
     }
     return product;

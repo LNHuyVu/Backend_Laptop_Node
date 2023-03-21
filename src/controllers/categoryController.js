@@ -20,6 +20,8 @@ let handleCreateNewCategory = async (req, res) => {
   return res.status(200).json(message);
 };
 let handleDeleteCategory = async (req, res) => {
+  // let id = req.body.id;
+  // console.log(id);
   if (!req.body.id) {
     return res.status(200).json({
       errCode: 1,
@@ -29,14 +31,15 @@ let handleDeleteCategory = async (req, res) => {
   let message = await categoryService.deleteCategory(req.body.id);
   return res.status(200).json(message);
 };
-let handleEditCategory=async(req, res)=>{
-    let data = req.body;
-    let message = await categoryService.editCategory(data);
-    return res.status(200).json(message);
-}
+let handleEditCategory = async (req, res) => {
+  let data = req.body;
+  // console.log(data);
+  let message = await categoryService.editCategory(data);
+  return res.status(200).json(message);
+};
 module.exports = {
   handleGetAllCategory: handleGetAllCategory,
   handleCreateNewCategory: handleCreateNewCategory,
   handleDeleteCategory: handleDeleteCategory,
-  handleEditCategory:handleEditCategory,
+  handleEditCategory: handleEditCategory,
 };

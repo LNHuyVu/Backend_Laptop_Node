@@ -9,27 +9,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Products.belongsTo(models.ProductImages, {
+        foreignKey: "proId",
+        targetKey: "imgId",
+        as: "imgData",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
     }
   }
   Products.init(
     {
-      name: DataTypes.STRING,
-      slug: DataTypes.STRING,
-      catid: DataTypes.INTEGER,
-      typeid:DataTypes.INTEGER,
-      img: DataTypes.STRING,
-      cpu:DataTypes.STRING,
-      ram:DataTypes.STRING,
-      hdrive:DataTypes.STRING,
-      card:DataTypes.STRING,
-      screen:DataTypes.STRING,
-      system:DataTypes.STRING,
-      detail: DataTypes.STRING,
-      number: DataTypes.INTEGER,
-      sold: DataTypes.INTEGER,
+      nameProduct: DataTypes.STRING,
+      slugProduct: DataTypes.STRING,
+      catId: DataTypes.INTEGER,
+      typeId: DataTypes.INTEGER,
       price: DataTypes.FLOAT,
-      pricesale: DataTypes.FLOAT,
-      statussale: DataTypes.INTEGER,
+      detail: DataTypes.TEXT,
+      proId: DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {
