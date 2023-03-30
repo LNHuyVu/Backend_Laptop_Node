@@ -13,17 +13,33 @@ import productValueController from "../controllers/productValueController";
 import productOptionController from "../controllers/productOptionController";
 import productStoreController from "../controllers/productStoreController";
 import productImageController from "../controllers/productImageController";
-import productSaleController from "../controllers/productSaleController"
+import productSaleController from "../controllers/productSaleController";
+import authController from "../controllers/authController";
+import middlewareController from "../controllers/middlewareController";
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", (req, res) => {
     return res.send("fff");
   });
+  //Login AUTH
+  router.post("/api/login", authController.handleLogin);
+  router.post("/api/logout",middlewareController.verifyToken,authController.handleLogout);
+  router.post("/api/register", authController.handleCreateNewUser);
+  router.post("/api/refresh",authController.handleRefreshToken);
+
+  // router.get("/api/get-all-user", authController.handleGetAllUser);
+  // router.delete("/api/delete-user", authController.handleDeleteUser);
+  // router.put("/api/edit-user", authController.handleEditUser);
+
   //APIs USER
-  router.post("/api/login", userController.handleLogin);
-  router.get("/api/get-all-users", userController.handleGetAllUser);
+  // router.post("/api/login", userController.handleLogin);
+  router.get(
+    "/api/get-all-user",
+    // middlewareController.verifyToken,
+    userController.handleGetAllUser
+  );
   router.post("/api/create-new-user", userController.handleCreateNewUser);
-  router.delete("/api/delete-user", userController.handleDeleteUser);
+  router.delete("/api/delete-user",middlewareController.verifyTokenAndAdminAuth,userController.handleDeleteUser);
   router.put("/api/edit-user", userController.handleEditUser);
 
   //APIs TOPIC
@@ -113,8 +129,8 @@ let initWebRoutes = (app) => {
     productImageController.handleEditProductImage
   );
 
-   //APIs PRODUCT_SALE
-   router.get(
+  //APIs PRODUCT_SALE
+  router.get(
     "/api/get-all-productsale",
     productSaleController.handleGetAllProductSale
   );

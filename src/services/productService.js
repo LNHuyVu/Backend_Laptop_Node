@@ -3,7 +3,7 @@ import db from "../models/index";
 let checkProductName = async (productName) => {
   try {
     let product = await db.Products.findOne({
-      where: { name: productName },
+      where: { nameProduct: productName },
     });
     if (product) {
       return true;
@@ -24,7 +24,70 @@ let getAllProducts = async (productId) => {
           {
             model: db.ProductImages,
             as: "imgData",
-            attributes: ["id", "nameImage", "link", "alt"],
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "importPrices", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
           },
         ],
       });
@@ -36,7 +99,70 @@ let getAllProducts = async (productId) => {
           {
             model: db.ProductImages,
             as: "imgData",
-            attributes: ["id", "nameImage", "link", "alt"],
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "importPrices", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
           },
         ],
       });
@@ -48,7 +174,7 @@ let getAllProducts = async (productId) => {
 };
 let createNewProduct = async (data) => {
   try {
-    let check = await checkProductName(data.name);
+    let check = await checkProductName(data.nameProduct);
     if (check === true) {
       return {
         errCode: 1,
@@ -56,23 +182,14 @@ let createNewProduct = async (data) => {
       };
     } else {
       await db.Products.create({
-        name: data.name,
-        slug: data.slug,
-        catid: data.catid,
-        typeid: data.typeid,
-        img: data.img,
-        cpu: data.cpu,
-        ram: data.ram,
-        hdrive: data.hdrive,
-        card: data.card,
-        screen: data.screen,
-        system: data.system,
-        detail: data.detail,
-        number: data.number,
-        sold: data.sold,
+        nameProduct: data.nameProduct,
+        slugProduct: data.slugProduct,
+        catId: data.catId,
         price: data.price,
-        pricesale: data.pricesale,
-        statussale: data.statussale,
+        detail: data.detail,
+        proId: data.proId,
+        type: data.type,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {
@@ -114,23 +231,14 @@ let editProduct = async (data) => {
       where: { id: data.id },
     });
     if (product) {
-      (product.name = data.name),
-        (product.slug = data.slug),
-        (product.catid = data.catid),
-        (product.typeid = data.typeid),
-        (product.img = data.img),
-        (product.cpu = data.cpu),
-        (product.ram = data.ram),
-        (product.hdrive = data.hdrive),
-        (product.card = data.card),
-        (product.screen = data.screen),
-        (product.system = data.system),
-        (product.detail = data.detail),
-        (product.number = data.number),
-        (product.sold = data.sold),
+      (product.nameProduct = data.nameProduct),
+        (product.slugProduct = data.slugProduct),
+        (product.catId = data.catId),
         (product.price = data.price),
-        (product.pricesale = data.pricesale),
-        (product.statussale = data.statussale),
+        (product.detail = data.detail),
+        (product.proId = data.proId),
+        (product.type = data.type),
+        (product.createdBy = data.createdBy),
         (product.status = data.status);
       await product.save();
       return {

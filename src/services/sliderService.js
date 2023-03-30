@@ -41,7 +41,9 @@ let createNewSlider = async (data) => {
       await db.Sliders.create({
         name: data.name,
         link: data.link,
-        img: data.img,
+        sliderId: data.sliderId,
+        position: data.position,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {
@@ -67,7 +69,9 @@ let editSlider = async (data) => {
     if (slider) {
       (slider.name = data.name),
         (slider.link = data.link),
-        (slider.img = data.img),
+        (slider.sliderId = data.sliderId),
+        (slider.position = data.position),
+        (slider.createdBy = data.createdBy),
         (slider.status = data.status);
       await slider.save();
       return {

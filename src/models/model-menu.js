@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   Menus.init(
     {
       name: DataTypes.STRING,
-      slug: DataTypes.STRING,
-      img:DataTypes.STRING,
+      menuId:DataTypes.STRING,
       link: DataTypes.STRING,
-      parentid: DataTypes.INTEGER,
+      parentId: DataTypes.INTEGER,
+      createdBy:DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

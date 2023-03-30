@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   Posts.init(
     {
       title: DataTypes.STRING,
-      topid: DataTypes.INTEGER,
+      topId: DataTypes.INTEGER,
       slug: DataTypes.STRING,
       detail: DataTypes.TEXT,
-      img: DataTypes.STRING,
+      postId: DataTypes.STRING,
+      createdBy:DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

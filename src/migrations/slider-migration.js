@@ -15,7 +15,13 @@ module.exports = {
       link: {
         type: Sequelize.STRING
       },
-      img: {
+      sliderId: {
+        type: Sequelize.STRING
+      },
+      positon: {
+        type: Sequelize.STRING
+      },
+      createdBy: {
         type: Sequelize.STRING
       },
       status: {

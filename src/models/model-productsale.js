@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       valueSale: DataTypes.FLOAT,
       startDay: DataTypes.DATEONLY,
       endDay: DataTypes.DATEONLY,
+      createdBy:DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

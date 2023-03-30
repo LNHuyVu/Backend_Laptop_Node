@@ -9,15 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       storeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       importPrices: {
         type: Sequelize.FLOAT,
       },
       number: {
-        type: Sequelize.INTEGER,
-      },
-      sold: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

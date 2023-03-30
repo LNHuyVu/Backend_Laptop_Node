@@ -18,9 +18,8 @@ let getAllOrder = async (orderId) => {
 let createNewOrder = async (data) => {
   try {
     await db.Orders.create({
-      name: data.name,
-      code: data.code,
-      userid: data.userid,
+      userId: data.userId,
+      codeOrder: data.codeOrder,
       address: data.address,
       phone: data.phone,
       email: data.email,
@@ -63,9 +62,8 @@ let editOrder = async (data) => {
       where: { id: data.id },
     });
     if (order) {
-      (order.name = data.name),
-        (order.code = data.code),
-        (order.userid = data.userid),
+      (order.userId = data.userId),
+        (order.codeOrder = data.codeOrder),
         (order.address = data.address),
         (order.phone = data.phone),
         (order.email = data.email),

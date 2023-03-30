@@ -14,6 +14,9 @@ module.exports = {
       parentIdValue: {
         type: Sequelize.INTEGER,
       },
+      createdBy: {
+        type: Sequelize.STRING,
+      },
       statusValue: {
         type: Sequelize.INTEGER,
       },

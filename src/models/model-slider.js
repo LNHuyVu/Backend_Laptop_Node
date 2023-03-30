@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       link: DataTypes.STRING,
-      img: DataTypes.STRING,
+      sliderId: DataTypes.STRING,
+      position: DataTypes.STRING,
+      createdBy:DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

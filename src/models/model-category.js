@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       slug: DataTypes.STRING,
-      parentid: DataTypes.INTEGER,
+      parentId: DataTypes.INTEGER,
+      createdBy:DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

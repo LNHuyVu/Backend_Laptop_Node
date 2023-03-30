@@ -19,11 +19,11 @@ let createNewContact = async (data) => {
   try {
     await db.Contacts.create({
       name: data.name,
-      userid: data.userid,
+      userId: data.userId,
       email: data.email,
       phone: data.phone,
       content: data.content,
-      replyid: data.replyid,
+      replyId: data.replyId,
       replydetail: data.replydetail,
     });
     return {

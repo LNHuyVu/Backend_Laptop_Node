@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   Contacts.init(
     {
       name: DataTypes.STRING,
-      userid: DataTypes.INTEGER,
+      userId: DataTypes.STRING,
       email: DataTypes.STRING,
       phone: DataTypes.STRING,
       content: DataTypes.TEXT,
-      replyid: DataTypes.INTEGER,
+      replyId: DataTypes.INTEGER,
       replydetail: DataTypes.TEXT,
       status: DataTypes.INTEGER,
     },

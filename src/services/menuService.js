@@ -40,10 +40,10 @@ let createNewMenu = async (data) => {
     } else {
       await db.Menus.create({
         name: data.name,
-        slug: data.slug,
-        img: data.img,
+        menuId: data.menuId,
         link: data.link,
-        parentid: data.parentid,
+        createdBy: data.createdBy,
+        parentId: data.parentId,
         status: data.status,
       });
       return {
@@ -68,10 +68,10 @@ let editMenu = async (data) => {
     });
     if (menu) {
       (menu.name = data.name),
-        (menu.slug = data.slug),
-        (menu.img = data.img),
+        (menu.menuId = data.menuId),
+        (menu.createdBy = data.createdBy),
         (menu.link = data.link),
-        (menu.parentid = data.parentid),
+        (menu.parentId = data.parentId),
         (menu.status = data.status);
       await menu.save();
       return {

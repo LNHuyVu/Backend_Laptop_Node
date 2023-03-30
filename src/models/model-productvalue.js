@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       nameValue: DataTypes.STRING,
       parentIdValue: DataTypes.INTEGER,
+      createdBy:DataTypes.STRING,
       statusValue:DataTypes.INTEGER,
     },
     {

@@ -12,17 +12,17 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      slug: {
-        type: Sequelize.STRING
-      },
-      img: {
+      menuId: {
         type: Sequelize.STRING
       },
       link: {
         type: Sequelize.STRING
       },
-      parentid: {
+      parentId: {
         type: Sequelize.INTEGER
+      },
+      createdBy: {
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.INTEGER

@@ -18,12 +18,11 @@ let getAllOrderDetail = async (OrderDetailId) => {
 let createNewOrderDetail = async (data) => {
   try {
     await db.Orderdetails.create({
-      orderid: data.orderid,
-      productid: data.productid,
+      orderId: data.orderId,
+      productId: data.productId,
       price: data.price,
       quantity: data.quantity,
       amount: data.amount,
-      status: data.status,
     });
     return {
       errCode: 0,
@@ -63,8 +62,8 @@ let editOrderDetail = async (data) => {
       where: { id: data.id },
     });
     if (orderdetail) {
-      (orderdetail.orderid = data.orderid),
-        (orderdetail.productid = data.productid),
+      (orderdetail.orderId = data.orderId),
+        (orderdetail.productId = data.productId),
         (orderdetail.price = data.price),
         (orderdetail.quantity = data.quantity),
         (orderdetail.amount = data.amount);

@@ -17,6 +17,22 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         hooks: true,
       });
+      Products.belongsTo(models.ProductOptions, {
+        foreignKey: "proId",
+        targetKey: "optionId",
+        as: "option",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      Products.belongsTo(models.ProductStores, {
+        foreignKey: "proId",
+        targetKey: "storeId",
+        as: "store",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
     }
   }
   Products.init(
@@ -24,10 +40,11 @@ module.exports = (sequelize, DataTypes) => {
       nameProduct: DataTypes.STRING,
       slugProduct: DataTypes.STRING,
       catId: DataTypes.INTEGER,
-      typeId: DataTypes.INTEGER,
       price: DataTypes.FLOAT,
       detail: DataTypes.TEXT,
       proId: DataTypes.STRING,
+      type: DataTypes.STRING,
+      createdBy: DataTypes.STRING,
       status: DataTypes.INTEGER,
     },
     {

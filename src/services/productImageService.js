@@ -39,14 +39,12 @@ let createNewProductImage = async (data) => {
     //     errCode: 1,
     //     message: "Your name product value is already in used",
     //   };
-    // } else 
+    // } else
     {
       await db.ProductImages.create({
-        nameImage: data.nameImage,
         link: data.link,
-        alt: data.alt,
-        imgId:data.imgId,
-        status:data.status,
+        imgId: data.imgId,
+        status: data.status,
       });
       return {
         errCode: 0,
@@ -59,7 +57,7 @@ let createNewProductImage = async (data) => {
 };
 let deleteProductImage = async (productId) => {
   let productimage = await db.ProductImages.findOne({
-    where: { id: productId },
+    where: { imgId: productId },
   });
   if (!productimage) {
     return {
@@ -68,7 +66,7 @@ let deleteProductImage = async (productId) => {
     };
   }
   await db.ProductImages.destroy({
-    where: { id: productId },
+    where: { imgId: productId },
   });
   return {
     errCode: 0,
@@ -87,11 +85,9 @@ let editProductImage = async (data) => {
       where: { id: data.id },
     });
     if (productimage) {
-      (productimage.nameImage = data.nameImage),
-        (productimage.link = data.link);
-        (productimage.alt = data.alt);
-        (productimage.imgId = data.imgId);
-        (productimage.status = data.status);
+      productimage.link = data.link;
+      productimage.imgId = data.imgId;
+      productimage.status = data.status;
       await productimage.save();
       return {
         errCode: 0,

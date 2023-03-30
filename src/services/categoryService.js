@@ -42,7 +42,8 @@ let createNewCategory = async (data) => {
       await db.Categorys.create({
         name: data.name,
         slug: data.slug,
-        parentid: data.parentid,
+        parentId: data.parentId,
+        createdBy:data.createdBy,
         status: data.status,
       });
       return {
@@ -87,7 +88,8 @@ let editCategory = async (data) => {
       (category.name = data.name),
         (category.topid = data.topid),
         (category.slug = data.slug),
-        (category.parentid = data.parentid),
+        (category.parentId = data.parentId),
+        (category.createdBy = data.createdBy),
         (category.status = data.status);
       await category.save();
       return {

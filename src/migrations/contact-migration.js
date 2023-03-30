@@ -11,7 +11,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      userid: {
+      userId: {
         type: Sequelize.INTEGER
       },
       email: {
@@ -23,7 +23,7 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
-      replyid: {
+      replyId: {
         type: Sequelize.INTEGER
       },
       replydetail: {

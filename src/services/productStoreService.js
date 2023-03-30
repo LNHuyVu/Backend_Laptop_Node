@@ -45,7 +45,6 @@ let createNewProductStore = async (data) => {
         storeId: data.storeId,
         importPrices: data.importPrices,
         number: data.number,
-        sold: data.sold,
       });
       return {
         errCode: 0,
@@ -58,7 +57,7 @@ let createNewProductStore = async (data) => {
 };
 let deleteProductStore = async (productId) => {
   let product = await db.ProductStores.findOne({
-    where: { id: productId },
+    where: { storeId: productId },
   });
   if (!product) {
     return {
@@ -67,7 +66,7 @@ let deleteProductStore = async (productId) => {
     };
   }
   await db.ProductStores.destroy({
-    where: { id: productId },
+    where: { storeId: productId },
   });
   return {
     errCode: 0,
@@ -89,7 +88,6 @@ let editProductStore = async (data) => {
       (product.storeId = data.storeId),
       (product.importPrices = data.importPrices),
       (product.number = data.number),
-      (product.sold = data.sold),
       await product.save();
       return {
         errCode: 0,

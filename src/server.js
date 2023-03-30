@@ -5,7 +5,8 @@ import initWebRoutes from './route/web';
 // import connectDB from './config/connectDB'
 // import cors from 'cors'
 require ('dotenv').config();
-
+//
+const cookieParser=require('cookie-parser')
 // const morgan = require('morgan');
 const express = require('express');
 
@@ -37,7 +38,8 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+//Cookie
+app.use(cookieParser());
 viewEngine(app);
 initWebRoutes(app);
 

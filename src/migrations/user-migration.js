@@ -26,10 +26,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       img: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       gender: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       phone: {
         type: Sequelize.STRING
@@ -42,6 +42,9 @@ module.exports = {
       },
       status: {
         type: Sequelize.INTEGER
+      },
+      createdBy: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

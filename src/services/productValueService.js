@@ -59,6 +59,7 @@ let createNewProductValue = async (data) => {
       await db.ProductValues.create({
         nameValue: data.nameValue,
         parentIdValue: data.parentIdValue,
+        createdBy: data.createdBy,
         statusValue:data.statusValue,
       });
       return {

@@ -17,9 +17,6 @@ module.exports = {
       catId: {
         type: Sequelize.INTEGER,
       },
-      typeId: {
-        type: Sequelize.INTEGER,
-      },
       price: {
         type: Sequelize.FLOAT,
       },
@@ -27,6 +24,12 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       proId: {
+        type: Sequelize.STRING,
+      },
+      type: {
+        type: Sequelize.STRING,
+      },
+      createdBy: {
         type: Sequelize.STRING,
       },
       status: {

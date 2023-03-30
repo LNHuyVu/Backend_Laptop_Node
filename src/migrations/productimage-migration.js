@@ -8,14 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      nameImage: {
-        type: Sequelize.STRING,
-      },
       link: {
-        type: Sequelize.STRING,
-      },
-      alt: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
       },
       imgId: {
         type: Sequelize.STRING,

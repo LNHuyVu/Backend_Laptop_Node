@@ -23,6 +23,9 @@ module.exports = {
       status: {
         type: Sequelize.INTEGER,
       },
+      createdBy: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATEONLY,

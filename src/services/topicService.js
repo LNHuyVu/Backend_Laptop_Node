@@ -43,6 +43,8 @@ let createNewTopic = async (data) => {
       await db.Topics.create({
         name: data.name,
         slug: data.slug,
+        parentId: data.parentId,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {
@@ -86,6 +88,8 @@ let editTopic = async (data) => {
     if (topic) {
       (topic.name = data.name),
         (topic.slug = data.slug),
+        (topic.parentId = data.parentId),
+        (topic.createdBy = data.createdBy),
         (topic.status = data.status);
       await topic.save();
       return {

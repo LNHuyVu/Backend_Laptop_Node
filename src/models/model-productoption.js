@@ -10,6 +10,71 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // Products.belongsTo(models.ProductImages, {foreignKey:'proId', targetKey:'imgId', as:'imgData'})
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "cpu",
+        targetKey: "id",
+        as: "cpuName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "ram",
+        targetKey: "id",
+        as: "ramName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "hdrive",
+        targetKey: "id",
+        as: "hdriveName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "screen",
+        targetKey: "id",
+        as: "screenName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "card",
+        targetKey: "id",
+        as: "cardName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "system",
+        targetKey: "id",
+        as: "systemName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "demand",
+        targetKey: "id",
+        as: "demandName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+      ProductOptions.belongsTo(models.ProductValues, {
+        foreignKey: "cpuGen",
+        targetKey: "id",
+        as: "cpuGenName",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
+
     }
   }
   ProductOptions.init(

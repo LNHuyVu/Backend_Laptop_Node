@@ -42,11 +42,11 @@ let createNewPost = async (data) => {
     } else {
       await db.Posts.create({
         title: data.title,
-        topid: data.topid,
+        topId: data.topId,
         slug: data.slug,
         detail: data.detail,
-        img: data.img,
-        type: data.type,
+        postId: data.postId,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {

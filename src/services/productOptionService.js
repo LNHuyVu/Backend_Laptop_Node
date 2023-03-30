@@ -5,25 +5,61 @@ let getAllProductOption = async (productId) => {
     let productoption = "";
     if (productId === "ALL") {
       productoption = await db.ProductOptions.findAll({
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
+        include: [
+          {
+            model: db.ProductValues,
+            as: "value",
+            attributes: ["id", "nameValue"],
+          },
+        ],
       });
     }
     if (productId && productId !== "ALL") {
       productoption = await db.ProductOptions.findOne({
         where: { id: productId },
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
+        include: [
+          {
+            model: db.ProductValues,
+            as: "cpuName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "ramName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "hdriveName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "screenName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "cardName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "systemName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "demandName",
+            attributes: ["id", "nameValue"],
+          },
+          {
+            model: db.ProductValues,
+            as: "cpuGenName",
+            attributes: ["id", "nameValue"],
+          },
+        ],
+        attributes: {exclude: ["cpu","ram","hdrive","screen", "system","cpuGen","card","demand"]}
       });
     }
     return productoption;
@@ -56,7 +92,7 @@ let createNewProductOption = async (data) => {
 };
 let deleteProductOption = async (productId) => {
   let product = await db.ProductOptions.findOne({
-    where: { id: productId },
+    where: { optionId: productId},
   });
   if (!product) {
     return {
@@ -65,7 +101,7 @@ let deleteProductOption = async (productId) => {
     };
   }
   await db.ProductOptions.destroy({
-    where: { id: productId },
+    where: { optionId: productId },
   });
   return {
     errCode: 0,
@@ -84,15 +120,14 @@ let editProductOption = async (data) => {
       where: { id: data.id },
     });
     if (product) {
-      (product.optionId = data.optionId),
-        (product.cpu = data.cpu);
-        (product.cpuGen = data.cpuGen);
-        (product.ram = data.ram);
-        (product.demand = data.demand);
-        (product.card = data.card);
-        (product.hdrive = data.hdrive);
-        (product.screen = data.screen);
-        (product.system = data.system);
+      (product.optionId = data.optionId), (product.cpu = data.cpu);
+      product.cpuGen = data.cpuGen;
+      product.ram = data.ram;
+      product.demand = data.demand;
+      product.card = data.card;
+      product.hdrive = data.hdrive;
+      product.screen = data.screen;
+      product.system = data.system;
       await product.save();
       return {
         errCode: 0,

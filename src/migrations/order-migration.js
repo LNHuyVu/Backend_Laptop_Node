@@ -8,14 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
+      userId: {
         type: Sequelize.STRING
       },
-      code: {
+      codeOrder: {
         type: Sequelize.STRING
-      },
-      userid: {
-        type: Sequelize.INTEGER
       },
       address: {
         type: Sequelize.STRING

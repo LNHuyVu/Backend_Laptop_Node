@@ -11,8 +11,8 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      topid: {
-        type: Sequelize.INTEGER
+      topId: {
+        type: Sequelize.STRING
       },
       slug: {
         type: Sequelize.STRING
@@ -20,7 +20,10 @@ module.exports = {
       detail: {
         type: Sequelize.TEXT
       },
-      img: {
+      postId: {
+        type: Sequelize.STRING
+      },
+      createdBy: {
         type: Sequelize.STRING
       },
       status: {

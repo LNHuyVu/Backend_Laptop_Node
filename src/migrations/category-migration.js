@@ -14,8 +14,11 @@ module.exports = {
       slug: {
         type: Sequelize.STRING
       },
-      parentid: {
+      parentId: {
         type: Sequelize.INTEGER
+      },
+      createdBy: {
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.INTEGER

@@ -45,6 +45,7 @@ let createNewProductSale = async (data) => {
         valueSale: data.valueSale,
         startDay: data.startDay,
         endDay: data.endDay,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {
@@ -89,6 +90,7 @@ let editProductSale = async (data) => {
       (product.saleId = data.saleId), (product.valueSale = data.valueSale);
       product.startDay = data.startDay;
       product.endDay = data.endDay;
+      product.createdBy = data.createdBy;
       product.status = data.status;
       await product.save();
       return {
