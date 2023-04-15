@@ -17,7 +17,13 @@ let handleGetAllPost = async (req, res) => {
 };
 let handleCreateNewPost = async (req, res) => {
   let message = await postService.createNewPost(req.body);
-  return res.status(200).json(message);
+  if(message.errCode==0)
+  {
+    return res.status(200).json(message);
+  }
+  else{
+    return res.status(500).json(message);
+  }
 };
 let handleDeletePost = async (req, res) => {
   if (!req.body.id) {

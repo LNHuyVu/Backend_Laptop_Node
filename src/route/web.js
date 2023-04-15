@@ -23,24 +23,30 @@ let initWebRoutes = (app) => {
   });
   //Login AUTH
   router.post("/api/login", authController.handleLogin);
-  router.post("/api/logout",middlewareController.verifyToken,authController.handleLogout);
+  router.post("/api/logout", authController.handleLogout);
   router.post("/api/register", authController.handleCreateNewUser);
-  router.post("/api/refresh",authController.handleRefreshToken);
-
-  // router.get("/api/get-all-user", authController.handleGetAllUser);
-  // router.delete("/api/delete-user", authController.handleDeleteUser);
-  // router.put("/api/edit-user", authController.handleEditUser);
-
+  router.post("/api/refresh", authController.handleRefreshToken);
   //APIs USER
-  // router.post("/api/login", userController.handleLogin);
   router.get(
     "/api/get-all-user",
-    // middlewareController.verifyToken,
+    middlewareController.verifyToken,
     userController.handleGetAllUser
   );
-  router.post("/api/create-new-user", userController.handleCreateNewUser);
-  router.delete("/api/delete-user",middlewareController.verifyTokenAndAdminAuth,userController.handleDeleteUser);
-  router.put("/api/edit-user", userController.handleEditUser);
+  router.post(
+    "/api/create-new-user",
+    middlewareController.verifyToken,
+    userController.handleCreateNewUser
+  );
+  router.delete(
+    "/api/delete-user",
+    middlewareController.verifyTokenAndAdminAuth,
+    userController.handleDeleteUser
+  );
+  router.put(
+    "/api/edit-user",
+    middlewareController.verifyToken,
+    userController.handleEditUser
+  );
 
   //APIs TOPIC
   router.get("/api/get-all-topic", topicController.handleGetAllTopic);
@@ -50,6 +56,10 @@ let initWebRoutes = (app) => {
 
   //APIs PRODUCT
   router.get("/api/get-all-product", productController.handleGetAllProduct);
+  router.get(
+    "/api/customer/get-product",
+    productController.handleGetIdProductCustomer
+  );
   router.post(
     "/api/create-new-product",
     productController.handleCreateNewProduct
@@ -64,16 +74,31 @@ let initWebRoutes = (app) => {
   );
   router.post(
     "/api/create-new-productvalue",
+    middlewareController.verifyToken,
     productValueController.handleCreateNewProductValue
   );
   router.delete(
     "/api/delete-productvalue",
+    middlewareController.verifyToken,
     productValueController.handleDeleteProductValue
   );
   router.put(
     "/api/edit-productvalue",
+    middlewareController.verifyToken,
     productValueController.handleEditProductValue
   );
+  //ProductValue CUS
+    //Get Cus
+    router.get(
+      "/api/customer/get-all-productvalue/",
+      productValueController.handleGetAllProductValueCustomer
+    );
+    router.get(
+      "/api/customer/get-demand-productvalue/",
+      productValueController.handleGetDemandProductValueCustomer
+    );
+
+
 
   //APIs PRODUCT_OPTION
   router.get(
@@ -178,13 +203,24 @@ let initWebRoutes = (app) => {
   router.put("/api/edit-order", orderController.handleEditOrder);
 
   //APIs CATEGORY
-  router.get("/api/get-all-category", categoryController.handleGetAllCategory);
+  router.get(
+    "/api/get-all-category",
+    middlewareController.verifyToken,
+    categoryController.handleGetAllCategory
+  );
+  //Get Cus
+  router.get(
+    "/api/customer/get-category",
+    categoryController.handleGetAllCategoryCustomer
+  );
   router.post(
     "/api/create-new-category",
+    middlewareController.verifyToken,
     categoryController.handleCreateNewCategory
   );
   router.delete(
     "/api/delete-category",
+    middlewareController.verifyToken,
     categoryController.handleDeleteCategory
   );
   router.put("/api/edit-category", categoryController.handleEditCategory);

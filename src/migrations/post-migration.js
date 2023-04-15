@@ -17,11 +17,14 @@ module.exports = {
       slug: {
         type: Sequelize.STRING
       },
+      type: {
+        type: Sequelize.STRING
+      },
       detail: {
         type: Sequelize.TEXT
       },
-      postId: {
-        type: Sequelize.STRING
+      image: {
+        type: Sequelize.JSON
       },
       createdBy: {
         type: Sequelize.STRING

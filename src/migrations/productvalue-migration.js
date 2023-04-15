@@ -11,6 +11,9 @@ module.exports = {
       nameValue: {
         type: Sequelize.STRING,
       },
+      slug: {
+        type: Sequelize.STRING,
+      },
       parentIdValue: {
         type: Sequelize.INTEGER,
       },

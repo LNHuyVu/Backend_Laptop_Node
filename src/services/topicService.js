@@ -44,7 +44,6 @@ let createNewTopic = async (data) => {
         name: data.name,
         slug: data.slug,
         parentId: data.parentId,
-        createdBy: data.createdBy,
         status: data.status,
       });
       return {

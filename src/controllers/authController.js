@@ -16,20 +16,28 @@ let handleLogin = async (req, res) => {
     path: "/",
     sameSite: "strict",
   });
-  return res.status(200).json({
-    errCode: userData.errCode,
-    message: userData.errMessage,
-    accessToken: userData.accessToken,
-    user: userData.user ? userData.user : {},
-  });
+  if (userData.errCode == 0) {
+    return res.status(200).json({
+      errCode: userData.errCode,
+      message: userData.errMessage,
+      accessToken: userData.accessToken,
+      user: userData.user ? userData.user : {},
+    });
+  } else {
+    return res.status(500).json({
+      errCode: userData.errCode,
+      message: userData.errMessage,
+      user: userData.user ? userData.user : {},
+    });
+  }
 };
 //
 let handleRefreshToken = async (req, res) => {
   // const refToken=req.cookies.refreshToken;
-//   console.log(req.cookies);
-//   console.log(req.cookies.refreshToken);
+  //   console.log(req.cookies);
+  //   console.log(req.cookies.refreshToken);
   let refreshToken = req.cookies.refreshToken;
-//   console.log("-------------------------", refreshToken);
+  //   console.log("-------------------------", refreshToken);
   if (!refreshToken) {
     return res.status(401).json("You're not authenticated");
   } else {
@@ -46,10 +54,10 @@ let handleRefreshToken = async (req, res) => {
   }
 };
 //HandleLogout
-const handleLogout=(req,res)=>{
-    const logout=authService.logout(req,res);
-    return res.status(200).json(logout);
-}
+const handleLogout = (req, res) => {
+  const logout = authService.logout(req, res);
+  return res.status(200).json(logout);
+};
 //
 let handleGetAllUser = async (req, res) => {
   let id = req.query.id; //ALL or ID
@@ -95,5 +103,5 @@ module.exports = {
   handleDeleteUser: handleDeleteUser,
   handleEditUser: handleEditUser,
   handleRefreshToken: handleRefreshToken,
-  handleLogout:handleLogout,
+  handleLogout: handleLogout,
 };

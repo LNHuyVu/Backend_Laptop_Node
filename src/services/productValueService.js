@@ -19,26 +19,11 @@ let getAllProductValue = async (productId) => {
   try {
     let productvalue = "";
     if (productId === "ALL") {
-      productvalue = await db.ProductValues.findAll({
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
-      });
+      productvalue = await db.ProductValues.findAll({});
     }
     if (productId && productId !== "ALL") {
       productvalue = await db.ProductValues.findOne({
         where: { id: productId },
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
       });
     }
     return productvalue;
@@ -54,13 +39,13 @@ let createNewProductValue = async (data) => {
         errCode: 1,
         message: "Your name product value is already in used",
       };
-    } else 
-    {
+    } else {
       await db.ProductValues.create({
         nameValue: data.nameValue,
+        slug: data.slug,
         parentIdValue: data.parentIdValue,
         createdBy: data.createdBy,
-        statusValue:data.statusValue,
+        statusValue: data.statusValue,
       });
       return {
         errCode: 0,
@@ -102,8 +87,9 @@ let editProductValue = async (data) => {
     });
     if (product) {
       (product.nameValue = data.nameValue),
-      (product.parentIdValue = data.parentIdValue);
-      (product.statusValue = data.statusValue);
+        (product.slug = data.slug),
+        (product.parentIdValue = data.parentIdValue);
+      product.statusValue = data.statusValue;
       await product.save();
       return {
         errCode: 0,
@@ -119,9 +105,241 @@ let editProductValue = async (data) => {
     throw new Error(e);
   }
 };
+//Cus
+let getAllProductValueCustomer = async (slug, limit = 5) => {
+  try {
+    let productvalue = "";
+    let option = "";
+    if (slug) {
+      productvalue = await db.ProductValues.findOne({
+        where: { slug: slug },
+      });
+      option = await db.ProductOptions.findAll({
+        // limit: limit,
+        where: { demand: productvalue.id },
+        include: [
+          {
+            model: db.Products,
+            as: "product",
+            attributes: ["id", "nameProduct", "price", "slugProduct"],
+            include: [
+              {
+                model: db.ProductImages,
+                as: "imgData",
+                attributes: ["id", "imgId", "link"],
+              },
+              {
+                model: db.ProductOptions,
+                as: "option",
+                include: [
+                  {
+                    model: db.ProductValues,
+                    as: "cpuName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "ramName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "hdriveName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "screenName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "cardName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "systemName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "demandName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "cpuGenName",
+                    attributes: ["id", "nameValue"],
+                  },
+                ],
+                attributes: {
+                  exclude: [
+                    // "id",
+                    "optionId",
+                    "cpu",
+                    "ram",
+                    "hdrive",
+                    "screen",
+                    "system",
+                    "cpuGen",
+                    "card",
+                    "demand",
+                    "updatedAt",
+                    "createdAt",
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        attributes: {
+          exclude: [
+            "id",
+            "optionId",
+            "cpu",
+            "ram",
+            "hdrive",
+            "screen",
+            "system",
+            "cpuGen",
+            "card",
+            "demand",
+            "updatedAt",
+            "createdAt",
+          ],
+        },
+      });
+    }
+    return option;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+let getDemandProductValueCustomer = async (slug, limit = 5) => {
+  try {
+    let productvalue = "";
+    let option1 = "";
+    let option = [];
+
+    //EX Find SLug=>Id (CPU, RAM, ...)
+    if (slug == "demand") {
+      productvalue = await db.ProductValues.findAll({
+        where: { parentIdValue: 7 },
+        attributes: ["id"],
+      });
+      for (const item of productvalue) {
+        option1 = await db.ProductOptions.findAll({
+          offset: 3,
+          limit: limit,
+          where: { demand: item.dataValues.id },
+          include: [
+            {
+              model: db.Products,
+              as: "product",
+              attributes: ["id", "nameProduct", "price", "slugProduct"],
+              include: [
+                {
+                  model: db.ProductImages,
+                  as: "imgData",
+                  attributes: ["id", "imgId", "link"],
+                },
+                {
+                  model: db.ProductOptions,
+                  as: "option",
+                  include: [
+                    {
+                      model: db.ProductValues,
+                      as: "cpuName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "ramName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "hdriveName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "screenName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "cardName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "systemName",
+                      attributes: ["id", "nameValue"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "demandName",
+                      attributes: ["id", "nameValue", "slug"],
+                    },
+                    {
+                      model: db.ProductValues,
+                      as: "cpuGenName",
+                      attributes: ["id", "nameValue"],
+                    },
+                  ],
+                  attributes: {
+                    exclude: [
+                      // "id",
+                      "optionId",
+                      "cpu",
+                      "ram",
+                      "hdrive",
+                      "screen",
+                      "system",
+                      "cpuGen",
+                      "card",
+                      "demand",
+                      "updatedAt",
+                      "createdAt",
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+          attributes: {
+            exclude: [
+              "id",
+              "optionId",
+              "cpu",
+              "ram",
+              "hdrive",
+              "screen",
+              "system",
+              "cpuGen",
+              "card",
+              "demand",
+              "updatedAt",
+              "createdAt",
+            ],
+          },
+        });
+        option = [...option, option1];
+      }
+    }
+    return option;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 module.exports = {
   getAllProductValue: getAllProductValue,
-  createNewProductValue: createNewProductValue       ,
+  createNewProductValue: createNewProductValue,
   deleteProductValue: deleteProductValue,
   editProductValue: editProductValue,
+  ///
+  getAllProductValueCustomer: getAllProductValueCustomer,
+  getDemandProductValueCustomer: getDemandProductValueCustomer,
 };

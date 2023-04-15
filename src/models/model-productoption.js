@@ -9,6 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //product
+      ProductOptions.belongsTo(models.Products, {
+        foreignKey: "optionId",
+        targetKey: "proId",
+        as: "product",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
       // Products.belongsTo(models.ProductImages, {foreignKey:'proId', targetKey:'imgId', as:'imgData'})
       ProductOptions.belongsTo(models.ProductValues, {
         foreignKey: "cpu",
@@ -74,7 +83,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         hooks: true,
       });
-
     }
   }
   ProductOptions.init(

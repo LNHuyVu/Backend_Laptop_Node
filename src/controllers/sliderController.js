@@ -5,14 +5,14 @@ let handleGetAllSlider = async(req, res)=>{
       return res.status(200).json({
         errCode: 1,
         message: "Not Exit Topic ID",
-        topic: [],
+        slider: [],
       });
     }
-    let topic = await sliderService.getAllSlider(id);
+    let slider = await sliderService.getAllSlider(id);
     return res.status(200).json({
       errCode: 0,
       errMessage: "OK",
-      topic,
+      slider,
     });
 }
 let handleCreateNewSlider =async(req, res)=>{

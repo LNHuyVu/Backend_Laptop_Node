@@ -21,7 +21,7 @@ let generateAccessToken = (user) => {
       roles: user.roles,
     },
     process.env.JWT_ACCESS_KEY,
-    { expiresIn: "30s" }
+    { expiresIn: "1d" }
   );
 };
 let generateRefreshToken = (user) => {
@@ -66,8 +66,8 @@ let handleUserLogin = async (email, password) => {
     let isExist = await checkUserEmail(email);
     if (isExist) {
       let user = await db.User.findOne({
-        attributes: ["id", "email", "roles", "password"],
-        where: { email: email },
+        attributes: ["id","name","email", "roles", "password", "phone", "address"],
+        where: { email: email, status:1},
         raw: true,
       });
       if (user) {

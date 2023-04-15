@@ -17,11 +17,16 @@ let handleGetAllCategory = async (req, res) => {
 };
 let handleCreateNewCategory = async (req, res) => {
   let message = await categoryService.createNewCategory(req.body);
-  return res.status(200).json(message);
+  if(message.errCode==0)
+  {
+    return res.status(200).json(message);
+
+  }
+  else{
+    return res.status(500).json(message);
+  }
 };
 let handleDeleteCategory = async (req, res) => {
-  // let id = req.body.id;
-  // console.log(id);
   if (!req.body.id) {
     return res.status(200).json({
       errCode: 1,
@@ -37,9 +42,29 @@ let handleEditCategory = async (req, res) => {
   let message = await categoryService.editCategory(data);
   return res.status(200).json(message);
 };
+
+/// Get cus
+let handleGetAllCategoryCustomer=async (req, res) => {
+  let slug = req.query.slug;
+  if (!slug) {
+    return res.status(200).json({
+      errCode: 1,
+      message: "Missing request ID category",
+      product: [],
+    });
+  }
+  let id = await categoryService.getAllCategoryCustomer(slug);
+  return res.status(200).json({
+    errCode: 0,
+    message: "OK",
+    id,
+  });
+};
 module.exports = {
   handleGetAllCategory: handleGetAllCategory,
   handleCreateNewCategory: handleCreateNewCategory,
   handleDeleteCategory: handleDeleteCategory,
   handleEditCategory: handleEditCategory,
+  //Get cus
+  handleGetAllCategoryCustomer:handleGetAllCategoryCustomer,
 };

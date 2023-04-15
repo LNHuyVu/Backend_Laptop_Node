@@ -42,8 +42,9 @@ let createNewCategory = async (data) => {
       await db.Categorys.create({
         name: data.name,
         slug: data.slug,
+        image: data.image,
         parentId: data.parentId,
-        createdBy:data.createdBy,
+        createdBy: data.createdBy,
         status: data.status,
       });
       return {
@@ -86,7 +87,7 @@ let editCategory = async (data) => {
     });
     if (category) {
       (category.name = data.name),
-        (category.topid = data.topid),
+        (category.image = data.image),
         (category.slug = data.slug),
         (category.parentId = data.parentId),
         (category.createdBy = data.createdBy),
@@ -106,9 +107,25 @@ let editCategory = async (data) => {
     throw new Error(e);
   }
 };
+//Get Cus
+let getAllCategoryCustomer = async (slug) => {
+  try {
+    let category = "";
+    if (slug) {
+      category = await db.Categorys.findOne({
+        where: { slug: slug },
+      });
+    }
+    return category.id;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 module.exports = {
   getAllCategory: getAllCategory,
   createNewCategory: createNewCategory,
   deleteCategory: deleteCategory,
   editCategory: editCategory,
+  //Get Cus
+  getAllCategoryCustomer:getAllCategoryCustomer,
 };

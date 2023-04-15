@@ -44,8 +44,9 @@ let createNewPost = async (data) => {
         title: data.title,
         topId: data.topId,
         slug: data.slug,
+        type: data.type,
         detail: data.detail,
-        postId: data.postId,
+        image: data.image,
         createdBy: data.createdBy,
         status: data.status,
       });
@@ -89,11 +90,12 @@ let editPost = async (data) => {
     });
     if (post) {
       (post.title = data.title),
-        (post.topid = data.topid),
+        (post.topId = data.topId),
         (post.slug = data.slug),
-        (post.detail = data.detail),
-        (post.img = data.img),
         (post.type = data.type),
+        (post.detail = data.detail),
+        (post.image = data.image),
+        (post.createdBy = data.createdBy),
         (post.status = data.status);
       await post.save();
       return {

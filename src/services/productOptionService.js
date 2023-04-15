@@ -59,7 +59,18 @@ let getAllProductOption = async (productId) => {
             attributes: ["id", "nameValue"],
           },
         ],
-        attributes: {exclude: ["cpu","ram","hdrive","screen", "system","cpuGen","card","demand"]}
+        attributes: {
+          exclude: [
+            "cpu",
+            "ram",
+            "hdrive",
+            "screen",
+            "system",
+            "cpuGen",
+            "card",
+            "demand",
+          ],
+        },
       });
     }
     return productoption;
@@ -92,7 +103,7 @@ let createNewProductOption = async (data) => {
 };
 let deleteProductOption = async (productId) => {
   let product = await db.ProductOptions.findOne({
-    where: { optionId: productId},
+    where: { optionId: productId },
   });
   if (!product) {
     return {
@@ -120,7 +131,8 @@ let editProductOption = async (data) => {
       where: { id: data.id },
     });
     if (product) {
-      (product.optionId = data.optionId), (product.cpu = data.cpu);
+      product.optionId = data.optionId;
+      product.cpu = data.cpu;
       product.cpuGen = data.cpuGen;
       product.ram = data.ram;
       product.demand = data.demand;

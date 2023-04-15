@@ -6,12 +6,20 @@ import initWebRoutes from './route/web';
 // import cors from 'cors'
 require ('dotenv').config();
 //
+const cors = require('cors');
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+//
 const cookieParser=require('cookie-parser')
 // const morgan = require('morgan');
 const express = require('express');
 
 const app = express();
-
+//Cors
+app.use(cors(corsOptions));
 // app.use(cors({ credentials: true, origin: true }));
 //Orther Use Cors
 app.use(function (req, res, next) {
@@ -28,6 +36,7 @@ app.use(function (req, res, next) {
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
   res.setHeader('Access-Control-Allow-Credentials', true);
+  // res.setHeader('Access-Control-Allow-Origin: *' )
 
   // Pass to next layer of middleware
   next();
@@ -45,6 +54,8 @@ initWebRoutes(app);
 
 // connectDB();
 
+
+//
 let port=process.env.PORT || 6969;
 app.listen(port, () => {
   console.log(`Backend nodejs at http://localhost:${port}`)

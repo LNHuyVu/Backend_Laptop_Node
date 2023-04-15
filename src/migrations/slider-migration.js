@@ -15,10 +15,10 @@ module.exports = {
       link: {
         type: Sequelize.STRING
       },
-      sliderId: {
-        type: Sequelize.STRING
+      image: {
+        type: Sequelize.JSON
       },
-      positon: {
+      position: {
         type: Sequelize.STRING
       },
       createdBy: {

@@ -41,7 +41,7 @@ let createNewSlider = async (data) => {
       await db.Sliders.create({
         name: data.name,
         link: data.link,
-        sliderId: data.sliderId,
+        image: data.image,
         position: data.position,
         createdBy: data.createdBy,
         status: data.status,
@@ -69,9 +69,8 @@ let editSlider = async (data) => {
     if (slider) {
       (slider.name = data.name),
         (slider.link = data.link),
-        (slider.sliderId = data.sliderId),
+        (slider.image = data.image),
         (slider.position = data.position),
-        (slider.createdBy = data.createdBy),
         (slider.status = data.status);
       await slider.save();
       return {
@@ -88,27 +87,27 @@ let editSlider = async (data) => {
     throw new Error(e);
   }
 };
-let deleteSlider=async(sliderId)=>{
-    let slider = await db.Sliders.findOne({
-        where: { id: sliderId },
-      });
-      if (!slider) {
-        return {
-          errCode: 2,
-          message: "Not Exit Slider",
-        };
-      }
-      await db.Sliders.destroy({
-        where: { id: sliderId },
-      });
-      return {
-        errCode: 0,
-        message: "Delete Slider OK",
-      };
-}
+let deleteSlider = async (sliderId) => {
+  let slider = await db.Sliders.findOne({
+    where: { id: sliderId },
+  });
+  if (!slider) {
+    return {
+      errCode: 2,
+      message: "Not Exit Slider",
+    };
+  }
+  await db.Sliders.destroy({
+    where: { id: sliderId },
+  });
+  return {
+    errCode: 0,
+    message: "Delete Slider OK",
+  };
+};
 module.exports = {
   getAllSlider: getAllSlider,
   createNewSlider: createNewSlider,
   editSlider: editSlider,
-  deleteSlider:deleteSlider,
+  deleteSlider: deleteSlider,
 };

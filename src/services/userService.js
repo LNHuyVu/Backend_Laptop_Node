@@ -130,9 +130,9 @@ let deleteUser = async (userid) => {
       message: "Not Exit User",
     };
   }
-  // await db.User.destroy({
-  //   where: { id: userid },
-  // });
+  await db.User.destroy({
+    where: { id: userid },
+  });
   return {
     errCode: 0,
     message: "Delete OK",
