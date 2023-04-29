@@ -59,11 +59,47 @@ let handleGetIdProductCustomer = async (req, res) => {
     product,
   });
 };
+let handleGetCatProductCustomer = async (req, res) => {
+  let catId = req.query.catId; //ALL or ID
+  if (!catId) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Not Exit ID Product",
+      product: [],
+    });
+  }
+  let product = await productService.getCatProductCustomer(catId);
+  console.log(product);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "OK",
+    product,
+  });
+};
+let handleSearchProductCustomer = async (req, res) => {
+  let slug = req.query.slug; //ALL or ID
+  if (!slug) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Not Exit ID Product",
+      product: [],
+    });
+  }
+  let product = await productService.searchProductCustomer(slug);
+  console.log(product);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "OK",
+    product,
+  });
+};
 module.exports = {
   handleGetAllProduct: handleGetAllProduct,
   handleCreateNewProduct: handleCreateNewProduct,
   handleDeleteProduct: handleDeleteProduct,
   handleEditProduct: handleEditProduct,
   //Cus
-  handleGetIdProductCustomer:handleGetIdProductCustomer
+  handleGetIdProductCustomer:handleGetIdProductCustomer,
+  handleGetCatProductCustomer:handleGetCatProductCustomer,
+  handleSearchProductCustomer:handleSearchProductCustomer
 };

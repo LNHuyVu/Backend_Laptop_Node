@@ -33,6 +33,15 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         hooks: true,
       });
+      //Product Sale
+      Products.belongsTo(models.ProductSales, {
+        foreignKey: "id",
+        targetKey: "saleId",
+        as: "sale",
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        hooks: true,
+      });
     }
   }
   Products.init(

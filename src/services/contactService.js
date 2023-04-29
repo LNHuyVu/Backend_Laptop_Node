@@ -3,11 +3,13 @@ let getAllContact = async (contactId) => {
   try {
     let contact = "";
     if (contactId === "ALL") {
-      contact = await db.Contacts.findAll({});
+      contact = await db.Contacts.findAll({
+        order: [["id", "DESC"]],
+      });
     }
     if (contactId && contactId !== "ALL") {
       contact = await db.Contacts.findOne({
-        where: { id: categoryId },
+        where: { id: contactId },
       });
     }
     return contact;
@@ -23,8 +25,7 @@ let createNewContact = async (data) => {
       email: data.email,
       phone: data.phone,
       content: data.content,
-      replyId: data.replyId,
-      replydetail: data.replydetail,
+      status: data.status,
     });
     return {
       errCode: 0,
@@ -64,12 +65,9 @@ let editContact = async (data) => {
       where: { id: data.id },
     });
     if (contact) {
-    //   (contact.name = data.name),
-        // (contact.userid = data.userid),
-        // (contact.slug = data.slug),
-        // (contact.content = data.content);
-      contact.replyid = data.replyid;
-      contact.replydetail = data.replydetail;
+      contact.replyBy = data.replyBy;
+      contact.replyDetail = data.replyDetail;
+      contact.status = data.status;
       await contact.save();
       return {
         errCode: 0,

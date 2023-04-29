@@ -1,5 +1,5 @@
 import db from "../models/index";
-
+const { Op } = require("sequelize");
 let checkProductName = async (productName) => {
   try {
     let product = await db.Products.findOne({
@@ -22,6 +22,10 @@ let getAllProducts = async (productId) => {
       product = await db.Products.findAll({
         order: [["id", "DESC"]],
         include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
           {
             model: db.ProductImages,
             as: "imgData",
@@ -100,6 +104,10 @@ let getAllProducts = async (productId) => {
       product = await db.Products.findOne({
         where: { id: productId },
         include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
           {
             model: db.ProductImages,
             as: "imgData",
@@ -268,6 +276,10 @@ let getIdProductCustomer = async (slug) => {
         where: { slugProduct: slug },
         include: [
           {
+            model: db.ProductSales,
+            as: "sale",
+          },
+          {
             model: db.ProductImages,
             as: "imgData",
             attributes: ["id", "imgId", "link"],
@@ -276,6 +288,93 @@ let getIdProductCustomer = async (slug) => {
             model: db.ProductStores,
             as: "store",
             attributes: ["id", "importPrices", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue", "slug"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
+          },
+        ],
+      });
+    }
+    return product;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+let getCatProductCustomer = async (catId) => {
+  try {
+    let product = "";
+    if (catId && catId != "1") {
+      product = await db.Products.findAll({
+        where: { catId: catId },
+        include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "number"],
           },
           {
             model: db.ProductOptions,
@@ -336,9 +435,189 @@ let getIdProductCustomer = async (slug) => {
             },
           },
         ],
+        attributes: {
+          exclude: ["detail"],
+        },
       });
+      return product;
     }
-    return product;
+    if (catId == 1) {
+      product = await db.Products.findAll({
+        where: { type: "LT" },
+        include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ["detail"],
+        },
+      });
+      return product;
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+let searchProductCustomer = async (slug) => {
+  try {
+    let product = "";
+    if (slug) {
+      product = await db.Products.findAll({
+        where: {
+          slugProduct: {
+            [Op.like]: "%" + slug + "%",
+          },
+        },
+        include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ["detail"],
+        },
+      });
+      return product;
+    }
   } catch (e) {
     throw new Error(e);
   }
@@ -350,4 +629,6 @@ module.exports = {
   editProduct: editProduct,
   //Cus
   getIdProductCustomer: getIdProductCustomer,
+  getCatProductCustomer: getCatProductCustomer,
+  searchProductCustomer: searchProductCustomer,
 };

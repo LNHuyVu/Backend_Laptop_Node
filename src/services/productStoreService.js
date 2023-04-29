@@ -103,9 +103,41 @@ let editProductStore = async (data) => {
     throw new Error(e);
   }
 };
+let quantityProductStore = async (data) => {
+  try {
+    if (!data.id) {
+      return {
+        errCode: 1,
+        message: "Missing request ID Product Store",
+      };
+    }
+    let product = await db.ProductStores.findOne({
+      where: { storeId: data.id },
+    });
+    let number=product.number;
+    if (product) {
+      (product.storeId = data.storeId),
+      (product.number = number-data.number),
+      await product.save();
+      return {
+        errCode: 0,
+        message: "Update product Store OK",
+      };
+    } else {
+      return {
+        errCode: 2,
+        message: "Product Store not found",
+      };
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 module.exports = {
   getAllProductStore: getAllProductStore,
   createNewProductStore: createNewProductStore,
   deleteProductStore: deleteProductStore,
   editProductStore: editProductStore,
+  //
+  quantityProductStore:quantityProductStore
 };

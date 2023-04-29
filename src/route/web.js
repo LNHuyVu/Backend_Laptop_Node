@@ -15,6 +15,8 @@ import productStoreController from "../controllers/productStoreController";
 import productImageController from "../controllers/productImageController";
 import productSaleController from "../controllers/productSaleController";
 import authController from "../controllers/authController";
+import cartController from "../controllers/cartController";
+import emailController from "../controllers/emailController";
 import middlewareController from "../controllers/middlewareController";
 let router = express.Router();
 let initWebRoutes = (app) => {
@@ -60,6 +62,15 @@ let initWebRoutes = (app) => {
     "/api/customer/get-product",
     productController.handleGetIdProductCustomer
   );
+  router.get(
+    "/api/customer/get-cat-product",
+    productController.handleGetCatProductCustomer
+  );
+  router.get(
+    "/api/customer/search-product",
+    productController.handleSearchProductCustomer
+  );
+  //
   router.post(
     "/api/create-new-product",
     productController.handleCreateNewProduct
@@ -88,17 +99,15 @@ let initWebRoutes = (app) => {
     productValueController.handleEditProductValue
   );
   //ProductValue CUS
-    //Get Cus
-    router.get(
-      "/api/customer/get-all-productvalue/",
-      productValueController.handleGetAllProductValueCustomer
-    );
-    router.get(
-      "/api/customer/get-demand-productvalue/",
-      productValueController.handleGetDemandProductValueCustomer
-    );
-
-
+  //Get Cus
+  router.get(
+    "/api/customer/get-all-productvalue/",
+    productValueController.handleGetAllProductValueCustomer
+  );
+  router.get(
+    "/api/customer/get-demand-productvalue/",
+    productValueController.handleGetDemandProductValueCustomer
+  );
 
   //APIs PRODUCT_OPTION
   router.get(
@@ -134,6 +143,11 @@ let initWebRoutes = (app) => {
   router.put(
     "/api/edit-productstore",
     productStoreController.handleEditProductStore
+  );
+  //Handle Quantity Order Product Store
+  router.put(
+    "/api/quantity-productstore",
+    productStoreController.handleQuantityProductStore
   );
 
   //APIs PRODUCT_IMAGE
@@ -174,6 +188,9 @@ let initWebRoutes = (app) => {
 
   //APIs POST
   router.get("/api/get-all-post", postController.handleGetAllPost);
+  router.get("/api/customer/get-all-post", postController.handleGetTopIdPost);
+
+  // End get Cus
   router.post("/api/create-new-post", postController.handleCreateNewPost);
   router.delete("/api/delete-post", postController.handleDeletePost);
   router.put("/api/edit-post", postController.handleEditPost);
@@ -210,9 +227,14 @@ let initWebRoutes = (app) => {
   );
   //Get Cus
   router.get(
-    "/api/customer/get-category",
+    "/api/customer/get-id-category",
+    categoryController.handleGetIdCategoryCustomer
+  );
+  router.get(
+    "/api/customer/get-all-category",
     categoryController.handleGetAllCategoryCustomer
   );
+  //End get Cus
   router.post(
     "/api/create-new-category",
     middlewareController.verifyToken,
@@ -245,6 +267,23 @@ let initWebRoutes = (app) => {
   );
   router.put("/api/edit-contact", contactController.handleEditContact);
   router.delete("/api/delete-contact", contactController.handleDeleteContact);
+
+  // APIs CART
+  router.get("/api/get-all-cart", cartController.handleGetAllCart);
+  router.post("/api/add-cart", cartController.handleAddCart);
+  router.put(
+    "/api/increment-quantity-cart",
+    cartController.handleIncrementCart
+  );
+  router.put(
+    "/api/decrement-quantity-cart",
+    cartController.handleDecrementCart
+  );
+  router.delete("/api/delete-item-cart", cartController.handleDeleteItemCart);
+  //SEND EMAIL
+  router.post("/api/send-email", emailController.handleSendEmail);
+  router.post("/api/send-email-contact", emailController.handleSendEmailContact);
+  
 
   return app.use("/", router);
 };

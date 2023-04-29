@@ -36,9 +36,16 @@ let handleEditProductStore = async (req, res) => {
   let message = await productStoreService.editProductStore(data);
   return res.status(200).json(message);
 };
+let handleQuantityProductStore = async (req, res) => {
+  let data = req.body;
+  let message = await productStoreService.quantityProductStore(data);
+  return res.status(200).json(message);
+};
 module.exports = {
   handleGetAllProductStore: handleGetAllProductStore,
   handleCreateNewProductStore: handleCreateNewProductStore,
   handleDeleteProductStore: handleDeleteProductStore,
   handleEditProductStore: handleEditProductStore,
+  //
+  handleQuantityProductStore:handleQuantityProductStore
 };

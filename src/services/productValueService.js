@@ -110,7 +110,7 @@ let getAllProductValueCustomer = async (slug, limit = 5) => {
   try {
     let productvalue = "";
     let option = "";
-    if (slug) {
+    if (slug && slug != "") {
       productvalue = await db.ProductValues.findOne({
         where: { slug: slug },
       });
@@ -121,8 +121,18 @@ let getAllProductValueCustomer = async (slug, limit = 5) => {
           {
             model: db.Products,
             as: "product",
-            attributes: ["id", "nameProduct", "price", "slugProduct"],
+            attributes: ["id", "nameProduct", "price", "slugProduct", "proId"],
             include: [
+              {
+                model: db.ProductStores,
+                as: "store",
+                attributes: ["id", "number"],
+              },
+              {
+                model: db.ProductSales,
+                as: "sale",
+                attributes: ["id", "createdBy", "valueSale"],
+              },
               {
                 model: db.ProductImages,
                 as: "imgData",
@@ -237,12 +247,17 @@ let getDemandProductValueCustomer = async (slug, limit = 5) => {
             {
               model: db.Products,
               as: "product",
-              attributes: ["id", "nameProduct", "price", "slugProduct"],
+              attributes: ["id", "nameProduct", "price", "slugProduct", "proId"],
               include: [
                 {
                   model: db.ProductImages,
                   as: "imgData",
                   attributes: ["id", "imgId", "link"],
+                },
+                {
+                  model: db.ProductStores,
+                  as: "store",
+                  attributes: ["id", "number"],
                 },
                 {
                   model: db.ProductOptions,

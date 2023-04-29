@@ -108,7 +108,7 @@ let editCategory = async (data) => {
   }
 };
 //Get Cus
-let getAllCategoryCustomer = async (slug) => {
+let getIdCategoryCustomer = async (slug) => {
   try {
     let category = "";
     if (slug) {
@@ -127,5 +127,5 @@ module.exports = {
   deleteCategory: deleteCategory,
   editCategory: editCategory,
   //Get Cus
-  getAllCategoryCustomer:getAllCategoryCustomer,
+  getIdCategoryCustomer:getIdCategoryCustomer,
 };

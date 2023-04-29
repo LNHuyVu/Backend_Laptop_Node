@@ -1,4 +1,5 @@
 import db from "../models/index";
+const { Op } = require('sequelize');
 
 let checkPostTitle = async (postTitle) => {
   try {
@@ -19,11 +20,16 @@ let getAllPost = async (postId) => {
   try {
     let post = "";
     if (postId === "ALL") {
-      post = await db.Posts.findAll({});
+      post = await db.Posts.findAll({
+        order: [["id", "DESC"]],
+      });
     }
     if (postId && postId !== "ALL") {
       post = await db.Posts.findOne({
-        where: { id: postId },
+        // where: { id: postId },
+        where: {
+          [Op.or]: [{ id: postId }, { slug: postId }],
+        },
       });
     }
     return post;
@@ -112,9 +118,29 @@ let editPost = async (data) => {
     throw new Error(e);
   }
 };
+let getTopIdPost = async (topId) => {
+  try {
+    let post = "";
+    if (topId === "ALL") {
+      post = await db.Posts.findAll({
+        order: [["id", "DESC"]],
+      });
+    }
+    if (topId && topId !== "ALL") {
+      post = await db.Posts.findAll({
+        where: { topId: topId },
+      });
+    }
+    return post;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 module.exports = {
   getAllPost: getAllPost,
   createNewPost: createNewPost,
   deletePost: deletePost,
   editPost: editPost,
+  // 
+  getTopIdPost:getTopIdPost
 };

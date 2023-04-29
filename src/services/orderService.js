@@ -17,16 +17,19 @@ let getAllOrder = async (orderId) => {
 };
 let createNewOrder = async (data) => {
   try {
-    await db.Orders.create({
+    let order=await db.Orders.create({
+      name: data.name,
       userId: data.userId,
       codeOrder: data.codeOrder,
       address: data.address,
       phone: data.phone,
       email: data.email,
+      status: data.status,
     });
     return {
       errCode: 0,
       message: "Create Order OK",
+      order
     };
   } catch (e) {
     throw new Error(e);
@@ -62,11 +65,13 @@ let editOrder = async (data) => {
       where: { id: data.id },
     });
     if (order) {
+      (order.name = data.name),
       (order.userId = data.userId),
         (order.codeOrder = data.codeOrder),
         (order.address = data.address),
         (order.phone = data.phone),
         (order.email = data.email),
+        (order.status = data.status),
       await order.save();
       return {
         errCode: 0,

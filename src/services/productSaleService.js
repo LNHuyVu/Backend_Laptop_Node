@@ -1,28 +1,112 @@
 import db from "../models/index";
+let checkSaleId = async (saleId) => {
+  try {
+    let sale = await db.ProductSales.findOne({
+      where: { saleId: saleId },
+    });
+    if (sale) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 let getAllProductSale = async (productId) => {
   try {
     let productsale = "";
     if (productId === "ALL") {
       productsale = await db.ProductSales.findAll({
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
+        include: [
+          {
+            model: db.Products,
+            as: "productSale",
+            include: {
+              model: db.ProductImages,
+              as: "imgData",
+              attributes: ["id", "imgId", "link"],
+            },
+            attributes: ["id", "nameProduct", "price"],
+          },
+        ],
       });
     }
     if (productId && productId !== "ALL") {
       productsale = await db.ProductSales.findOne({
         where: { id: productId },
-        // include: [
-        //   {
-        //     model: db.ProductImages,
-        //     as: "imgData",
-        //     attributes: ["id", "nameImage", "link", "alt"],
-        //   },
-        // ],
+        include: [
+          {
+            model: db.Products,
+            as: "productSale",
+            include: [
+              {
+                model: db.ProductImages,
+                as: "imgData",
+                attributes: ["id", "imgId", "link"],
+              },
+              {
+                model: db.ProductOptions,
+                as: "option",
+                include: [
+                  {
+                    model: db.ProductValues,
+                    as: "cpuName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "ramName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "hdriveName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "screenName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "cardName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "systemName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "demandName",
+                    attributes: ["id", "nameValue"],
+                  },
+                  {
+                    model: db.ProductValues,
+                    as: "cpuGenName",
+                    attributes: ["id", "nameValue"],
+                  },
+                ],
+                attributes: {
+                  exclude: [
+                    "cpu",
+                    "ram",
+                    "hdrive",
+                    "screen",
+                    "system",
+                    "cpuGen",
+                    "card",
+                    "demand",
+                  ],
+                },
+              },
+            ],
+            attributes: ["id", "nameProduct", "price"],
+          },
+        ],
       });
     }
     return productsale;
@@ -32,19 +116,15 @@ let getAllProductSale = async (productId) => {
 };
 let createNewProductSale = async (data) => {
   try {
-    // let check = await checkProductName(data.nameValue);
-    // if (check === true) {
-    //   return {
-    //     errCode: 1,
-    //     message: "Your name product value is already in used",
-    //   };
-    // } else
-    {
+    let check = await checkSaleId(data.saleId);
+    if (check === true) {
+      return {
+        errCode: 1,
+        message: "Your ID SALE is already in used",
+      };
+    } else {
       await db.ProductSales.create({
         saleId: data.saleId,
-        valueSale: data.valueSale,
-        startDay: data.startDay,
-        endDay: data.endDay,
         createdBy: data.createdBy,
         status: data.status,
       });
@@ -86,12 +166,24 @@ let editProductSale = async (data) => {
     let product = await db.ProductSales.findOne({
       where: { id: data.id },
     });
+    //Check info sale
+    let check = "";
+    if (
+      product.endDay == null ||
+      product.startDay == null ||
+      product.valueSale == null
+    ) {
+      check = false;
+    } else {
+      check = true;
+    }
+
     if (product) {
-      (product.saleId = data.saleId), (product.valueSale = data.valueSale);
+      product.valueSale = data.valueSale;
       product.startDay = data.startDay;
       product.endDay = data.endDay;
       product.createdBy = data.createdBy;
-      product.status = data.status;
+      product.status = data.status === 1 ? (check ? 1 : 0) : 0;
       await product.save();
       return {
         errCode: 0,

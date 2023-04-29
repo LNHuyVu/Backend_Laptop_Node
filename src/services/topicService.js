@@ -1,5 +1,5 @@
 import db from "../models/index";
-
+const { Op } = require('sequelize');
 let checkTopicName = async (topicName) => {
   try {
     let topic = await db.Topics.findOne({
@@ -23,7 +23,10 @@ let getAllTopic = async (topicId) => {
     }
     if (topicId && topicId !== "ALL") {
       topic = await db.Topics.findOne({
-        where: { id: topicId },
+        // where: { id: topicId },
+        where: {
+          [Op.or]: [{ id: topicId }, { slug: topicId }],
+        },
       });
     }
     return topic;
