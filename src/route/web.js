@@ -49,6 +49,12 @@ let initWebRoutes = (app) => {
     middlewareController.verifyToken,
     userController.handleEditUser
   );
+  //ChangePassword
+  router.post(
+    "/api/change-password-user",
+    middlewareController.verifyToken,
+    userController.handleChangePassword
+  );
 
   //APIs TOPIC
   router.get("/api/get-all-topic", topicController.handleGetAllTopic);
@@ -200,6 +206,11 @@ let initWebRoutes = (app) => {
     "/api/get-all-orderdetail",
     orderdetailController.handleGetAllOrderDetail
   );
+  // Get Product Hot
+  router.get(
+    "/api/get-all-producthot",
+    orderdetailController.handleGetAllProductHot
+  );
   router.post(
     "/api/create-new-orderdetail",
     orderdetailController.handleCreateNewOrderDetail
@@ -220,11 +231,7 @@ let initWebRoutes = (app) => {
   router.put("/api/edit-order", orderController.handleEditOrder);
 
   //APIs CATEGORY
-  router.get(
-    "/api/get-all-category",
-    middlewareController.verifyToken,
-    categoryController.handleGetAllCategory
-  );
+  router.get("/api/get-all-category", categoryController.handleGetAllCategory);
   //Get Cus
   router.get(
     "/api/customer/get-id-category",
@@ -282,8 +289,10 @@ let initWebRoutes = (app) => {
   router.delete("/api/delete-item-cart", cartController.handleDeleteItemCart);
   //SEND EMAIL
   router.post("/api/send-email", emailController.handleSendEmail);
-  router.post("/api/send-email-contact", emailController.handleSendEmailContact);
-  
+  router.post(
+    "/api/send-email-contact",
+    emailController.handleSendEmailContact
+  );
 
   return app.use("/", router);
 };

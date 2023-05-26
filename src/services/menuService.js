@@ -1,23 +1,11 @@
 import db from "../models/index";
-let checkMenuName = async (menuName) => {
-  try {
-    let menu = await db.Menus.findOne({
-      where: { name: menuName },
-    });
-    if (menu) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    throw new Error(e);
-  }
-};
 let getAllMenu = async (menuId) => {
   try {
     let menu = "";
     if (menuId === "ALL") {
-      menu = await db.Menus.findAll({});
+      menu = await db.Menus.findAll({
+        order:[["id","DESC"]]
+      });
     }
     if (menuId && menuId !== "ALL") {
       menu = await db.Menus.findOne({
@@ -31,12 +19,8 @@ let getAllMenu = async (menuId) => {
 };
 let createNewMenu = async (data) => {
   try {
-    let check = await checkMenuName(data.name);
-    if (check === true) {
-      return {
-        errCode: 1,
-        message: "Your name Menu is already in used",
-      };
+    if (Array.isArray(data)) {
+      await db.Menus.bulkCreate(data);
     } else {
       await db.Menus.create({
         name: data.name,
@@ -46,11 +30,11 @@ let createNewMenu = async (data) => {
         parentId: data.parentId,
         status: data.status,
       });
-      return {
-        errCode: 0,
-        message: "Create menu OK",
-      };
     }
+    return {
+      errCode: 0,
+      message: "Create menu OK",
+    };
   } catch (e) {
     throw new Error(e);
   }

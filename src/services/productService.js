@@ -358,7 +358,7 @@ let getIdProductCustomer = async (slug) => {
 let getCatProductCustomer = async (catId) => {
   try {
     let product = "";
-    if (catId && catId != "1") {
+    if (catId && catId != "1" &&catId!="2") {
       product = await db.Products.findAll({
         where: { catId: catId },
         include: [
@@ -444,6 +444,89 @@ let getCatProductCustomer = async (catId) => {
     if (catId == 1) {
       product = await db.Products.findAll({
         where: { type: "LT" },
+        include: [
+          {
+            model: db.ProductSales,
+            as: "sale",
+          },
+          {
+            model: db.ProductImages,
+            as: "imgData",
+            attributes: ["id", "imgId", "link"],
+          },
+          {
+            model: db.ProductStores,
+            as: "store",
+            attributes: ["id", "number"],
+          },
+          {
+            model: db.ProductOptions,
+            as: "option",
+            include: [
+              {
+                model: db.ProductValues,
+                as: "cpuName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "ramName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "hdriveName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "screenName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cardName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "systemName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "demandName",
+                attributes: ["id", "nameValue"],
+              },
+              {
+                model: db.ProductValues,
+                as: "cpuGenName",
+                attributes: ["id", "nameValue"],
+              },
+            ],
+            attributes: {
+              exclude: [
+                "cpu",
+                "ram",
+                "hdrive",
+                "screen",
+                "system",
+                "cpuGen",
+                "card",
+                "demand",
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ["detail"],
+        },
+      });
+      return product;
+    }
+    if (catId == 2) {
+      product = await db.Products.findAll({
+        where: { type: "PK" },
         include: [
           {
             model: db.ProductSales,

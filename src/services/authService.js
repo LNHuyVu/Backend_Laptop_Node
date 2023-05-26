@@ -89,17 +89,17 @@ let handleUserLogin = async (email, password) => {
           return userData;
         } else {
           userData.errCode = 3;
-          userData.errMessage = "Wrong Password";
+          userData.errMessage = "Mật khẩu không chính xác";
           return userData;
         }
       } else {
         userData.errCode = 2;
-        userData.errMessage = "Email Not Exist Lv2";
+        userData.errMessage = "Tài khoản bị vô hiệu hóa";
         return userData;
       }
     } else {
       userData.errCode = 1;
-      userData.errMessage = "Email Not Exist!";
+      userData.errMessage = "Email không tồn tại!";
       return userData;
     }
   } catch (e) {
@@ -159,7 +159,7 @@ let createNewUser = async (data) => {
     if (check === true) {
       return {
         errCode: 1,
-        message: "Your email is already in used",
+        message: "Email đã tồn tại!",
       };
     } else {
       let hashPasswordFromBcrypt = await hashUserPassword(data.password);

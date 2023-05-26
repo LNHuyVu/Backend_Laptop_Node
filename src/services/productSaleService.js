@@ -18,6 +18,7 @@ let getAllProductSale = async (productId) => {
     let productsale = "";
     if (productId === "ALL") {
       productsale = await db.ProductSales.findAll({
+        order: [["id","DESC"]],
         include: [
           {
             model: db.Products,
@@ -116,22 +117,33 @@ let getAllProductSale = async (productId) => {
 };
 let createNewProductSale = async (data) => {
   try {
-    let check = await checkSaleId(data.saleId);
-    if (check === true) {
-      return {
-        errCode: 1,
-        message: "Your ID SALE is already in used",
-      };
-    } else {
-      await db.ProductSales.create({
-        saleId: data.saleId,
-        createdBy: data.createdBy,
-        status: data.status,
+    if (Array.isArray(data)) {
+      await db.ProductSales.bulkCreate(data, {
+        ignoreDuplicates: true,
+        // updateOnDuplicate: ["saleId"],
       });
       return {
         errCode: 0,
         message: "Create Product Sale OK",
       };
+    } else {
+      let check = await checkSaleId(data.saleId);
+      if (check === true) {
+        return {
+          errCode: 1,
+          message: "Your ID SALE is already in used",
+        };
+      } else {
+        await db.ProductSales.create({
+          saleId: data.saleId,
+          createdBy: data.createdBy,
+          status: data.status,
+        });
+        return {
+          errCode: 0,
+          message: "Create Product Sale OK",
+        };
+      }
     }
   } catch (e) {
     throw new Error(e);

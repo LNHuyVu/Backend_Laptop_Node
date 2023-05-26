@@ -11,7 +11,43 @@ let hashUserPassword = (password) => {
     throw new Error(e);
   }
 };
-
+let handleChangePassword = async (email, password) => {
+  try {
+    let userData = {};
+    let isExist = await checkUserEmail(email);
+    if (isExist) {
+      let user = await db.User.findOne({
+        attributes: ["email", "roles", "password"],
+        where: { email: email },
+        raw: true,
+      });
+      if (user) {
+        let check = await bcrypt.compareSync(password, user.password);
+        if (check) {
+          userData.errCode = 0;
+          userData.errMessage = "OK";
+          delete user.password;
+          userData.user = user;
+          return userData;
+        } else {
+          userData.errCode = 3;
+          userData.errMessage = "Sai mật khẩu";
+          return userData;
+        }
+      } else {
+        userData.errCode = 2;
+        userData.errMessage = "Email Not Exist Lv2";
+        return userData;
+      }
+    } else {
+      userData.errCode = 1;
+      userData.errMessage = "Email không tồn tại!";
+      return userData;
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 let handleUserLogin = async (email, password) => {
   // return new Promise(async (resolve, rejeck) => {
   try {
@@ -73,6 +109,12 @@ let getAllUsers = async (userId) => {
         attributes: {
           exclude: ["password"],
         },
+        include: [
+          {
+            model: db.Orders,
+            as: "cart",
+          },
+        ],
       });
     }
     if (userId && userId !== "ALL") {
@@ -81,6 +123,46 @@ let getAllUsers = async (userId) => {
         attributes: {
           exclude: ["password"],
         },
+        include: [
+          {
+            model: db.Orders,
+            as: "cart",
+            include: [
+              {
+                model: db.Orderdetails,
+                as: "orderDetail",
+                include: [
+                  {
+                    model: db.Products,
+                    as: "product",
+                    attributes: ["id", "nameProduct"],
+                    include: [
+                      {
+                        model: db.ProductImages,
+                        as: "imgData",
+                        attributes: ["id", "link"],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                model: db.User,
+                as: "user",
+                attributes: {
+                  exclude: [
+                    "password",
+                    "createdAt",
+                    "createdBy",
+                    "updatedAt",
+                    "status",
+                    "img",
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       });
     }
     return users;
@@ -150,14 +232,28 @@ let editUser = async (data) => {
       where: { id: data.id },
     });
     if (user) {
-      (user.name = data.name),
-        (user.img = data.img),
-        (user.phone = data.phone),
-        (user.gender = data.gender),
-        (user.roles = data.roles),
-        (user.address = data.address);
-      user.status = data.status;
-      await user.save();
+      if (!data.password) {
+        (user.name = data.name),
+          (user.img = data.img),
+          (user.phone = data.phone),
+          (user.gender = data.gender),
+          (user.roles = data.roles),
+          (user.address = data.address),
+          (user.status = data.status),
+          await user.save();
+      } else {
+        let hashPasswordFromBcrypt = await hashUserPassword(data.password);
+        (user.name = data.name),
+          (user.img = data.img),
+          (user.phone = data.phone),
+          (user.gender = data.gender),
+          (user.roles = data.roles),
+          (user.address = data.address),
+          (user.status = data.status),
+          (user.password = hashPasswordFromBcrypt),
+          await user.save();
+      }
+
       return {
         errCode: 0,
         message: "Update user OK",
@@ -178,4 +274,6 @@ module.exports = {
   createNewUser: createNewUser,
   deleteUser: deleteUser,
   editUser: editUser,
+  //change password
+  handleChangePassword: handleChangePassword,
 };

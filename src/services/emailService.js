@@ -25,7 +25,7 @@ let sendEmail = async (data) => {
       secure: true,
       auth: {
         user: "lenguyenhuyvu.htn@gmail.com",
-        pass: "fmasdkcjewpcodsm",
+        pass: process.env.PASSWORD_EMAIL,
       },
     });
     var mailOptions = {
@@ -98,7 +98,6 @@ let sendEmail = async (data) => {
 };
 let sendEmailContact = async (data) => {
   try {
-    console.log("---------------",data.contact.email)
     var transporter = nodemailer.createTransport({
       service: "gmail",
       host: "smtp.gmail.com",
@@ -106,7 +105,7 @@ let sendEmailContact = async (data) => {
       secure: true,
       auth: {
         user: "lenguyenhuyvu.htn@gmail.com",
-        pass: "wlkqwcdjrehfkzoz",
+        pass: process.env.PASSWORD_EMAIL,
       },
     });
     var mailOptions = {

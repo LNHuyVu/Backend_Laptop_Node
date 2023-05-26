@@ -17,12 +17,9 @@ let handleGetAllCategory = async (req, res) => {
 };
 let handleCreateNewCategory = async (req, res) => {
   let message = await categoryService.createNewCategory(req.body);
-  if(message.errCode==0)
-  {
+  if (message.errCode == 0) {
     return res.status(200).json(message);
-
-  }
-  else{
+  } else {
     return res.status(500).json(message);
   }
 };
@@ -44,7 +41,7 @@ let handleEditCategory = async (req, res) => {
 };
 
 /// Get cus "ID" Cat
-let handleGetIdCategoryCustomer=async (req, res) => {
+let handleGetIdCategoryCustomer = async (req, res) => {
   let slug = req.query.slug;
   if (!slug) {
     return res.status(200).json({
@@ -53,14 +50,14 @@ let handleGetIdCategoryCustomer=async (req, res) => {
       product: [],
     });
   }
-  let id = await categoryService.getIdCategoryCustomer(slug);
+  let category = await categoryService.getIdCategoryCustomer(slug);
   return res.status(200).json({
     errCode: 0,
     message: "OK",
-    id,
+    category,
   });
 };
-let handleGetAllCategoryCustomer= async (req, res) => {
+let handleGetAllCategoryCustomer = async (req, res) => {
   let id = req.query.id;
   if (!id) {
     return res.status(200).json({
@@ -82,6 +79,6 @@ module.exports = {
   handleDeleteCategory: handleDeleteCategory,
   handleEditCategory: handleEditCategory,
   //Get cus
-  handleGetIdCategoryCustomer:handleGetIdCategoryCustomer,
-  handleGetAllCategoryCustomer:handleGetAllCategoryCustomer
+  handleGetIdCategoryCustomer: handleGetIdCategoryCustomer,
+  handleGetAllCategoryCustomer: handleGetAllCategoryCustomer,
 };

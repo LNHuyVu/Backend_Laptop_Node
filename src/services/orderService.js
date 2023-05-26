@@ -3,11 +3,81 @@ let getAllOrder = async (orderId) => {
   try {
     let order = "";
     if (orderId === "ALL") {
-      order = await db.Orders.findAll({});
+      order = await db.Orders.findAll({
+        order:[["id","DESC"]],
+        include: [
+          {
+            model: db.Orderdetails,
+            as: "orderDetail",
+            include: [
+              {
+                model: db.Products,
+                as: "product",
+                attributes: ["id", "nameProduct"],
+                include: [
+                  {
+                    model: db.ProductImages,
+                    as: "imgData",
+                    attributes: ["id", "link"],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: db.User,
+            as: "user",
+            attributes: {
+              exclude: [
+                "password",
+                "createdAt",
+                "createdBy",
+                "updatedAt",
+                "status",
+                "img",
+              ],
+            },
+          },
+        ],
+      });
     }
     if (orderId && orderId !== "ALL") {
       order = await db.Orders.findOne({
         where: { id: orderId },
+        include: [
+          {
+            model: db.Orderdetails,
+            as: "orderDetail",
+            include: [
+              {
+                model: db.Products,
+                as: "product",
+                attributes: ["id", "nameProduct"],
+                include: [
+                  {
+                    model: db.ProductImages,
+                    as: "imgData",
+                    attributes: ["id", "link"],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: db.User,
+            as: "user",
+            attributes: {
+              exclude: [
+                "password",
+                "createdAt",
+                "createdBy",
+                "updatedAt",
+                "status",
+                "img",
+              ],
+            },
+          },
+        ],
       });
     }
     return order;
@@ -17,7 +87,7 @@ let getAllOrder = async (orderId) => {
 };
 let createNewOrder = async (data) => {
   try {
-    let order=await db.Orders.create({
+    let order = await db.Orders.create({
       name: data.name,
       userId: data.userId,
       codeOrder: data.codeOrder,
@@ -29,7 +99,7 @@ let createNewOrder = async (data) => {
     return {
       errCode: 0,
       message: "Create Order OK",
-      order
+      order,
     };
   } catch (e) {
     throw new Error(e);
@@ -66,13 +136,13 @@ let editOrder = async (data) => {
     });
     if (order) {
       (order.name = data.name),
-      (order.userId = data.userId),
+        (order.userId = data.userId),
         (order.codeOrder = data.codeOrder),
         (order.address = data.address),
         (order.phone = data.phone),
         (order.email = data.email),
         (order.status = data.status),
-      await order.save();
+        await order.save();
       return {
         errCode: 0,
         message: "Update order OK",

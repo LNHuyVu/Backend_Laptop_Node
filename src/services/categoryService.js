@@ -116,7 +116,7 @@ let getIdCategoryCustomer = async (slug) => {
         where: { slug: slug },
       });
     }
-    return category.id;
+    return category;
   } catch (e) {
     throw new Error(e);
   }

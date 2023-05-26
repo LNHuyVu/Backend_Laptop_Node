@@ -121,7 +121,14 @@ let getAllProductValueCustomer = async (slug, limit = 5) => {
           {
             model: db.Products,
             as: "product",
-            attributes: ["id", "nameProduct", "price", "slugProduct", "proId"],
+            attributes: [
+              "id",
+              "catId",
+              "nameProduct",
+              "price",
+              "slugProduct",
+              "proId",
+            ],
             include: [
               {
                 model: db.ProductStores,
@@ -131,7 +138,6 @@ let getAllProductValueCustomer = async (slug, limit = 5) => {
               {
                 model: db.ProductSales,
                 as: "sale",
-                attributes: ["id", "createdBy", "valueSale"],
               },
               {
                 model: db.ProductImages,
@@ -240,15 +246,26 @@ let getDemandProductValueCustomer = async (slug, limit = 5) => {
       });
       for (const item of productvalue) {
         option1 = await db.ProductOptions.findAll({
-          offset: 3,
+          // offset: 3,
           limit: limit,
           where: { demand: item.dataValues.id },
           include: [
             {
               model: db.Products,
               as: "product",
-              attributes: ["id", "nameProduct", "price", "slugProduct", "proId"],
+              attributes: [
+                "id",
+                "catId",
+                "nameProduct",
+                "price",
+                "slugProduct",
+                "proId",
+              ],
               include: [
+                {
+                  model: db.ProductSales,
+                  as: "sale",
+                },
                 {
                   model: db.ProductImages,
                   as: "imgData",
