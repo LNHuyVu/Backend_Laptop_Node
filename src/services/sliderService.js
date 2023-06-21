@@ -38,6 +38,14 @@ let createNewSlider = async (data) => {
         message: "Your name slider is already in used",
       };
     } else {
+      await db.Sliders.update(
+        { status: 0 },
+        {
+          where: {
+            position: data.position,
+          },
+        }
+      );
       await db.Sliders.create({
         name: data.name,
         link: data.link,
@@ -66,6 +74,18 @@ let editSlider = async (data) => {
     let slider = await db.Sliders.findOne({
       where: { id: data.id },
     });
+    if (slider) {
+      if (!data.name) {
+        await db.Sliders.update(
+          { status: 0 },
+          {
+            where: {
+              position: slider.position,
+            },
+          }
+        );
+      }
+    }
     if (slider) {
       (slider.name = data.name),
         (slider.link = data.link),
