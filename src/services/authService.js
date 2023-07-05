@@ -60,27 +60,26 @@ let GenerateNewToken = (refreshToken) => {
 };
 //
 let handleUserLogin = async (email, password) => {
-  // return new Promise(async (resolve, rejeck) => {
-  try {
-    let userData = {};
-    let isExist = await checkUserEmail(email);
-    if (isExist) {
-      let user = await db.User.findOne({
-        attributes: [
-          "id",
-          "name",
-          "email",
-          "roles",
-          "password",
-          "phone",
-          "address",
-          "img",
-        ],
-        where: { email: email, status: 1 },
-        raw: true,
-      });
-      if (user) {
-        try {
+  return new Promise(async (resolve, rejeck) => {
+    try {
+      let userData = {};
+      let isExist = await checkUserEmail(email);
+      if (isExist) {
+        let user = await db.User.findOne({
+          attributes: [
+            "id",
+            "name",
+            "email",
+            "roles",
+            "password",
+            "phone",
+            "address",
+            "img",
+          ],
+          where: { email: email, status: 1 },
+          raw: true,
+        });
+        if (user) {
           let check = await bcrypt.compareSync(password, user.password);
           if (check) {
             // JWT ACCESS TOKEN
@@ -96,29 +95,27 @@ let handleUserLogin = async (email, password) => {
             userData.refreshToken = refreshToken;
             delete user.password;
             userData.user = user;
-            return userData;
+            resolve(userData);
           } else {
             userData.errCode = 3;
             userData.errMessage = "Mật khẩu không chính xác";
-            return userData;
+            resolve(userData);
           }
-        } catch (e) {
-          throw new Error(e);
+        } else {
+          userData.errCode = 2;
+          userData.errMessage = "Tài khoản bị vô hiệu hóa";
+          resolve(userData);
         }
       } else {
-        userData.errCode = 2;
-        userData.errMessage = "Tài khoản bị vô hiệu hóa";
-        return userData;
+        userData.errCode = 1;
+        userData.errMessage = "Email không tồn tại!";
+        resolve(userData);
       }
-    } else {
-      userData.errCode = 1;
-      userData.errMessage = "Email không tồn tại!";
-      return userData;
+    } catch (error) {
+      // throw new Error(e);
+      rejeck(error);
     }
-  } catch (e) {
-    throw new Error(e);
-  }
-  // });
+  });
 };
 //Logout
 let logout = (req, res) => {
