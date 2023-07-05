@@ -80,26 +80,30 @@ let handleUserLogin = async (email, password) => {
         raw: true,
       });
       if (user) {
-        let check = await bcrypt.compareSync(password, user.password);
-        if (check) {
-          // JWT ACCESS TOKEN
-          const accessToken = generateAccessToken(user);
-          // JWT REFRESH TOKEN
-          const refreshToken = generateRefreshToken(user);
-          //Push
-          refreshTokenArray.push(refreshToken);
-          //
-          userData.errCode = 0;
-          userData.errMessage = "OK";
-          userData.accessToken = accessToken;
-          userData.refreshToken = refreshToken;
-          delete user.password;
-          userData.user = user;
-          return userData;
-        } else {
-          userData.errCode = 3;
-          userData.errMessage = "Mật khẩu không chính xác";
-          return userData;
+        try {
+          let check = await bcrypt.compareSync(password, user.password);
+          if (check) {
+            // JWT ACCESS TOKEN
+            const accessToken = generateAccessToken(user);
+            // JWT REFRESH TOKEN
+            const refreshToken = generateRefreshToken(user);
+            //Push
+            refreshTokenArray.push(refreshToken);
+            //
+            userData.errCode = 0;
+            userData.errMessage = "OK";
+            userData.accessToken = accessToken;
+            userData.refreshToken = refreshToken;
+            delete user.password;
+            userData.user = user;
+            return userData;
+          } else {
+            userData.errCode = 3;
+            userData.errMessage = "Mật khẩu không chính xác";
+            return userData;
+          }
+        } catch (error) {
+          throw new Error(e);
         }
       } else {
         userData.errCode = 2;
