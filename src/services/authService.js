@@ -102,7 +102,7 @@ let handleUserLogin = async (email, password) => {
             userData.errMessage = "Mật khẩu không chính xác";
             return userData;
           }
-        } catch (error) {
+        } catch (e) {
           throw new Error(e);
         }
       } else {
