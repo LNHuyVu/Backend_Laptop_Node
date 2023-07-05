@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       saleId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       valueSale: {
         type: Sequelize.FLOAT,

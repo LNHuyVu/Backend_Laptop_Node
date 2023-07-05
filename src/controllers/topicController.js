@@ -15,6 +15,8 @@ let handleGetAllTopic = async (req, res) => {
     topic,
   });
 };
+
+
 let handleCreateNewTopic = async (req, res) => {
   let message = await topicService.createNewTopic(req.body);
   return res.status(200).json(message);
@@ -34,9 +36,27 @@ let handleEditTopic = async (req, res) => {
   let message = await topicService.editTopic(data);
   return res.status(200).json(message);
 };
+//CUS
+let handleGetTopicCus = async (req, res) => {
+  let id = req.query.id;
+  if (!id) {
+    return res.status(200).json({
+      errCode: 1,
+      message: "Not Exit Topic ID",
+      topic: [],
+    });
+  }
+  let topic = await topicService.getTopicCus(id);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "OK",
+    topic,
+  });
+};
 module.exports = {
   handleGetAllTopic: handleGetAllTopic,
   handleCreateNewTopic: handleCreateNewTopic,
   handleDeleteTopic: handleDeleteTopic,
   handleEditTopic: handleEditTopic,
+  handleGetTopicCus:handleGetTopicCus,
 };

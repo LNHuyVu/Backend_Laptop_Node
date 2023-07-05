@@ -17,7 +17,7 @@ let checkProductName = async (productName) => {
 
 let getAllProducts = async (productId) => {
   try {
-    let product = "";
+    let product;
     if (productId === "ALL") {
       product = await db.Products.findAll({
         order: [["id", "DESC"]],
@@ -358,7 +358,7 @@ let getIdProductCustomer = async (slug) => {
 let getCatProductCustomer = async (catId) => {
   try {
     let product = "";
-    if (catId && catId != "1" &&catId!="2") {
+    if (catId && catId != "1" && catId != "2") {
       product = await db.Products.findAll({
         where: { catId: catId },
         include: [

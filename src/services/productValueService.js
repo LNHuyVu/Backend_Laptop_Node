@@ -1,5 +1,5 @@
 import db from "../models/index";
-
+const { Op } = require("sequelize");
 let checkProductName = async (productName) => {
   try {
     let productvalue = await db.ProductValues.findOne({
@@ -246,7 +246,7 @@ let getDemandProductValueCustomer = async (slug, limit = 5) => {
       });
       for (const item of productvalue) {
         option1 = await db.ProductOptions.findAll({
-          // offset: 3,
+          // offset: 4,
           limit: limit,
           where: { demand: item.dataValues.id },
           include: [

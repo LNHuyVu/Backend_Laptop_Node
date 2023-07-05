@@ -1,5 +1,5 @@
 import db from "../models/index";
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 let checkTopicName = async (topicName) => {
   try {
     let topic = await db.Topics.findOne({
@@ -108,9 +108,31 @@ let editTopic = async (data) => {
     throw new Error(e);
   }
 };
+//CUS
+let getTopicCus = async (topicId) => {
+  try {
+    let topic = "";
+    if (topicId === "ALL") {
+      topic = await db.Topics.findAll({});
+    }
+    if (topicId && topicId !== "ALL") {
+      topic = await db.Topics.findOne({
+        // where: { id: topicId },
+        where: {
+          slug: topicId,
+        },
+      });
+    }
+    return topic;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 module.exports = {
   getAllTopic: getAllTopic,
   createNewTopic: createNewTopic,
   deleteTopic: deleteTopic,
   editTopic: editTopic,
+  getTopicCus: getTopicCus,
 };

@@ -1,5 +1,5 @@
 import db from "../models/index";
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 let checkPostTitle = async (postTitle) => {
   try {
@@ -37,6 +37,7 @@ let getAllPost = async (postId) => {
     throw new Error(e);
   }
 };
+
 let createNewPost = async (data) => {
   try {
     let check = await checkPostTitle(data.title);
@@ -136,11 +137,34 @@ let getTopIdPost = async (topId) => {
     throw new Error(e);
   }
 };
+
+//Get POST CUS => Slug
+
+let getPostCus = async (slug) => {
+  try {
+    let post = "";
+    if (slug === "ALL") {
+      post = await db.Posts.findAll({
+        order: [["id", "DESC"]],
+      });
+    }
+    if (slug && slug !== "ALL") {
+      post = await db.Posts.findOne({
+        where: { slug: slug },
+      });
+    }
+    return post;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+//
 module.exports = {
   getAllPost: getAllPost,
   createNewPost: createNewPost,
   deletePost: deletePost,
   editPost: editPost,
-  // 
-  getTopIdPost:getTopIdPost
+  //
+  getTopIdPost: getTopIdPost,
+  getPostCus: getPostCus,
 };

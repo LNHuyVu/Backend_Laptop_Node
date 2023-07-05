@@ -58,6 +58,9 @@ let initWebRoutes = (app) => {
 
   //APIs TOPIC
   router.get("/api/get-all-topic", topicController.handleGetAllTopic);
+  //GET TOPIC CUS => SLUG
+  router.get("/api/get-topic-cus", topicController.handleGetTopicCus);
+  //
   router.post("/api/create-new-topic", topicController.handleCreateNewTopic);
   router.delete("/api/delete-topic", topicController.handleDeleteTopic);
   router.put("/api/edit-topic", topicController.handleEditTopic);
@@ -193,7 +196,11 @@ let initWebRoutes = (app) => {
   );
 
   //APIs POST
+  //Get Post Admin => id
   router.get("/api/get-all-post", postController.handleGetAllPost);
+  //Get Post Customer => slug
+  router.get("/api/get-post-customer", postController.handleGetPostCus);
+  //GetPost =>TopId(Topic)
   router.get("/api/customer/get-all-post", postController.handleGetTopIdPost);
 
   // End get Cus

@@ -146,20 +146,20 @@ let getAllUsers = async (userId) => {
                   },
                 ],
               },
-              {
-                model: db.User,
-                as: "user",
-                attributes: {
-                  exclude: [
-                    "password",
-                    "createdAt",
-                    "createdBy",
-                    "updatedAt",
-                    "status",
-                    "img",
-                  ],
-                },
-              },
+              // {
+              //   model: db.User,
+              //   as: "user",
+              //   attributes: {
+              //     exclude: [
+              //       "password",
+              //       "createdAt",
+              //       "createdBy",
+              //       "updatedAt",
+              //       "status",
+              //       "img",
+              //     ],
+              //   },
+              // },
             ],
           },
         ],

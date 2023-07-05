@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   ProductSales.init(
     {
-      saleId: DataTypes.STRING,
+      saleId: DataTypes.INTEGER,
       valueSale: DataTypes.FLOAT,
       startDay: DataTypes.DATEONLY,
       endDay: DataTypes.DATEONLY,

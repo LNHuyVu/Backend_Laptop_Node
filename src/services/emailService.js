@@ -24,7 +24,7 @@ let sendEmail = async (data) => {
       port: 465,
       secure: true,
       auth: {
-        user: "lenguyenhuyvu.htn@gmail.com",
+        user: process.env.EMAIL,
         pass: process.env.PASSWORD_EMAIL,
       },
     });
@@ -104,7 +104,7 @@ let sendEmailContact = async (data) => {
       port: 465,
       secure: true,
       auth: {
-        user: "lenguyenhuyvu.htn@gmail.com",
+        user: process.env.EMAIL,
         pass: process.env.PASSWORD_EMAIL,
       },
     });

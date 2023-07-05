@@ -15,6 +15,7 @@ let handleGetAllPost = async (req, res) => {
     post,
   });
 };
+
 let handleCreateNewPost = async (req, res) => {
   let message = await postService.createNewPost(req.body);
   if(message.errCode==0)
@@ -40,6 +41,8 @@ let handleEditPost = async (req, res) => {
   let message = await postService.editPost(data);
   return res.status(200).json(message);
 };
+//CUS
+
 let handleGetTopIdPost= async (req, res) => {
   let topId = req.query.topId;
   if (!topId) {
@@ -56,11 +59,32 @@ let handleGetTopIdPost= async (req, res) => {
     post,
   });
 };
+//handleGetPostCus
+let handleGetPostCus = async (req, res) => {
+  let id = req.query.id;
+  if (!id) {
+    return res.status(200).json({
+      errCode: 1,
+      message: "Missing Slug Post",
+      post: [],
+    });
+  }
+  let post = await postService.getPostCus(id);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "OK",
+    post,
+  });
+};
+
+
+//
 module.exports = {
   handleGetAllPost: handleGetAllPost,
   handleCreateNewPost: handleCreateNewPost,
   handleDeletePost: handleDeletePost,
   handleEditPost: handleEditPost,
   // Cus
-  handleGetTopIdPost:handleGetTopIdPost
+  handleGetTopIdPost:handleGetTopIdPost,
+  handleGetPostCus:handleGetPostCus
 };

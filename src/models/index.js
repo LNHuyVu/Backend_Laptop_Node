@@ -9,6 +9,17 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
+// let customizeConfig={
+//   host: process.env.HOST_DB,
+//   dialect: "mysql",
+//   logging: false,
+// }
+// sequelize = new Sequelize(
+//   process.env.NAME_DB,
+//   process.env.NAME_USER_DB,
+//   process.env.PASS_DB,
+//   customizeConfig
+//   );
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
