@@ -60,63 +60,61 @@ let GenerateNewToken = (refreshToken) => {
 };
 //
 let handleUserLogin = async (email, password) => {
-  return new Promise(async (resolve, rejeck) => {
-    try {
-      let userData = {};
-      let isExist = await checkUserEmail(email);
-      if (isExist) {
-        let user = await db.User.findOne({
-          attributes: [
-            "id",
-            "name",
-            "email",
-            "roles",
-            "password",
-            "phone",
-            "address",
-            "img",
-          ],
-          where: { email: email, status: 1 },
-          raw: true,
-        });
-        if (user) {
-          let check = await bcrypt.compareSync(password, user.password);
-          if (check) {
-            // JWT ACCESS TOKEN
-            const accessToken = generateAccessToken(user);
-            // JWT REFRESH TOKEN
-            const refreshToken = generateRefreshToken(user);
-            //Push
-            refreshTokenArray.push(refreshToken);
-            //
-            userData.errCode = 0;
-            userData.errMessage = "OK";
-            userData.accessToken = accessToken;
-            userData.refreshToken = refreshToken;
-            delete user.password;
-            userData.user = user;
-            resolve(userData);
-          } else {
-            userData.errCode = 3;
-            userData.errMessage = "Mật khẩu không chính xác";
-            resolve(userData);
-          }
+  try {
+    let userData = {};
+    let isExist = await checkUserEmail(email);
+    if (isExist) {
+      let user = await db.User.findOne({
+        attributes: [
+          "id",
+          "name",
+          "email",
+          "roles",
+          "password",
+          "phone",
+          "address",
+          "img",
+        ],
+        where: { email: email, status: 1 },
+        raw: true,
+      });
+      if (user) {
+        let check = await bcrypt.compareSync(password, user.password);
+        if (check) {
+          // JWT ACCESS TOKEN
+          const accessToken = generateAccessToken(user);
+          // JWT REFRESH TOKEN
+          const refreshToken = generateRefreshToken(user);
+          //Push
+          refreshTokenArray.push(refreshToken);
+          //
+          userData.errCode = 0;
+          userData.errMessage = "OK";
+          userData.accessToken = accessToken;
+          userData.refreshToken = refreshToken;
+          delete user.password;
+          userData.user = user;
+          return userData;
         } else {
-          userData.errCode = 2;
-          userData.errMessage = "Tài khoản bị vô hiệu hóa";
-          resolve(userData);
+          userData.errCode = 3;
+          userData.errMessage = "Mật khẩu không chính xác";
+          return userData;
         }
       } else {
-        userData.errCode = 1;
-        userData.errMessage = "Email không tồn tại!";
-        resolve(userData);
+        userData.errCode = 2;
+        userData.errMessage = "Tài khoản bị vô hiệu hóa";
+        return userData;
       }
-    } catch (error) {
-      // throw new Error(e);
-      rejeck(error);
+    } else {
+      userData.errCode = 1;
+      userData.errMessage = "Email không tồn tại!";
+      return userData;
     }
-  });
+  } catch (e) {
+    throw new Error(e);
+  }
 };
+
 //Logout
 let logout = (req, res) => {
   res.clearCookie("refreshToken");
@@ -125,6 +123,8 @@ let logout = (req, res) => {
   );
   return "Logout Ok";
 };
+//
+
 let checkUserEmail = async (userEmail) => {
   try {
     let user = await db.User.findOne({
