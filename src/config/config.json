@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "lnhv_laptop_user",
-    "password": "8zOXCJO6DYe0hqMe3RpzSHIEtelOf66h",
-    "database": "lnhv_laptop",
-    "host": "dpg-cihrladgkuvojjar4n4g-a.singapore-postgres.render.com",
+    "username": "lnhv_laptop_xxsh_user",
+    "password": "RqfOd63Gr3YLtbf6gut7c3anzrYbtFZw",
+    "database": "lnhv_laptop_xxsh",
+    "host": "dpg-cij922l9aq01qqh715k0-a.singapore-postgres.render.com",
     "dialect": "postgres",
     "logging":false,
     "dialectOptions": {
@@ -22,10 +22,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "lnhv_laptop_user",
-    "password": "8zOXCJO6DYe0hqMe3RpzSHIEtelOf66h",
-    "database": "lnhv_laptop",
-    "host": "dpg-cihrladgkuvojjar4n4g-a.singapore-postgres.render.com",
+    "username": "lnhv_laptop_xxsh_user",
+    "password": "RqfOd63Gr3YLtbf6gut7c3anzrYbtFZw",
+    "database": "lnhv_laptop_xxsh",
+    "host": "dpg-cij922l9aq01qqh715k0-a.singapore-postgres.render.com",
     "dialect": "postgres",
     "logging":false,
     "dialectOptions": {

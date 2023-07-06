@@ -1,9 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-import { Promise } from "sequelize";
 const salt = bcrypt.genSaltSync(10);
 const jwt = require("jsonwebtoken");
-require ('dotenv').config();
 
 let refreshTokenArray = [];
 
